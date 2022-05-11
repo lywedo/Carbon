@@ -8,74 +8,116 @@
 
 
 //把这个脚本挂在想使用的gameobject上即可
-    public class TileRootDragController : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+    public class TileRootDragController : MonoBehaviour
     {
-        public Transform Target;
+        private Vector3 _vec3TargetScreenSpace; // 目标物体的屏幕空间坐标  
+        private Vector3 _vec3TargetWorldSpace; // 目标物体的世界空间坐标  
+        private Transform _trans; // 目标物体的空间变换组件  
+        private Vector3 _vec3MouseScreenSpace; // 鼠标的屏幕空间坐标  
+        private Vector3 _vec3Offset; // 偏移 
+        public Camera TargetCamera;
 
-        private Vector3 _cacheV3 = Vector3.zero;
-        //点击和拖拽总的触发顺序
-        //01 OnPointerDown
-        //02 OnBeginDrag
-        //03 OnDrag
-        //04 OnPointerUp
-        //05 OnPointerClick
-        //06 OnEndDrag
-
-        //只处理拖拽的触发顺序，先触发OnBeginDrag, 再触发OnDrag，最后触发OnEndDrag
-        //开始拖动
-        public void OnBeginDrag(PointerEventData eventData)
+        void Awake()
         {
-            //PointerEventData.delta的含义是自上次更新以来的指针坐标增量变化变化。
-            // this.GetComponent<RectTransform>().anchoredPosition += eventData.delta;
-            _cacheV3.x = eventData.delta.x;
-            _cacheV3.y = eventData.delta.y;
-            Target.localPosition = _cacheV3;
-            //目前设的世界坐标和屏幕坐标一致，所以此时anchoredPosition左下角为(0,0)。右上角为屏幕的最大值。
-            Debug.Log("OnBeginDrag anchoredPosition.x = " + this.GetComponent<RectTransform>().anchoredPosition.x);
+            _trans = transform;
+            // Debug.Log("当前触摸在UI上");
         }
 
-        //拖动中
-        public void OnDrag(PointerEventData eventData)
+        void Update()
         {
-            // this.GetComponent<RectTransform>().anchoredPosition += eventData.delta;
-            _cacheV3.x = eventData.delta.x;
-            _cacheV3.y = eventData.delta.y;
-            Target.localPosition = _cacheV3;
-            //目前设的世界坐标和屏幕坐标一致，所以此时anchoredPosition左下角为(0,0)。右上角为屏幕的最大值。
-            Debug.Log("OnDrag anchoredPosition.x = " + this.GetComponent<RectTransform>().anchoredPosition.x);
+            // if (IsTouchedUI())
+            // {
+            //     Debug.Log("当前触摸在UI上");
+            // }
+            // else
+            // {
+            //     Debug.Log("当前没有触摸在UI上");
+            // }
+            if (Input.GetMouseButtonDown(0))
+            {
+                RaycastHit2D hit = Physics2D.Raycast(TargetCamera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 500, 1<<0);
+                if(hit.collider != null){
+                    StartCoroutine(OnMouseDown());
+                }
+                
+            }
+        }
+        // void OnMouseDown()
+        // {
+        //     if(IsTouchedUI())
+        //     {
+        //         Debug.Log("当前触摸在UI上");
+        //     }
+        //     else
+        //     {
+        //         Debug.Log("当前没有触摸在UI上");
+        //     }
+        // }
 
+        bool IsTouchedUI()
+        {
+            bool touchedUI = false;
+            if (Application.isMobilePlatform)
+            {
+                if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+                {
+                    touchedUI = true;
+                }
+            }
+            else if (EventSystem.current.IsPointerOverGameObject())
+            {
+                touchedUI = true;
+            }
+
+            return touchedUI;
         }
 
-        //拖动结束后
-        public void OnEndDrag(PointerEventData eventData)
+        IEnumerator OnMouseDown()
+
         {
-            // this.GetComponent<RectTransform>().anchoredPosition += eventData.delta;
-            _cacheV3.x = eventData.delta.x;
-            _cacheV3.y = eventData.delta.y;
-            Target.localPosition = _cacheV3;
-            //目前设的世界坐标和屏幕坐标一致，所以此时anchoredPosition左下角为(0,0)。右上角为屏幕的最大值。
-            Debug.Log("OnEndDrag anchoredPosition.x = " + this.GetComponent<RectTransform>().anchoredPosition.x);
+            if (IsTouchedUI())
+            {
+                // Debug.Log("当前触摸在UI上");
+            }
+            else
+            {
+                // Debug.Log("当前没有触摸在UI上");
+                // Debug.Log("onmousedown");
+                // 把目标物体的世界空间坐标转换到它自身的屏幕空间坐标   
+
+                _vec3TargetScreenSpace = TargetCamera.WorldToScreenPoint(_trans.position);
+
+                // 存储鼠标的屏幕空间坐标（Z值使用目标物体的屏幕空间坐标）   
+
+                _vec3MouseScreenSpace =
+                    new Vector3(Input.mousePosition.x, Input.mousePosition.y, _vec3TargetScreenSpace.z);
+
+                // 计算目标物体与鼠标物体在世界空间中的偏移量   
+
+                _vec3Offset = _trans.position - TargetCamera.ScreenToWorldPoint(_vec3MouseScreenSpace);
+
+                // 鼠标左键按下   
+
+                while (Input.GetMouseButton(0))
+                {
+                    // 存储鼠标的屏幕空间坐标（Z值使用目标物体的屏幕空间坐标）  
+
+                    _vec3MouseScreenSpace =
+                        new Vector3(Input.mousePosition.x, Input.mousePosition.y, _vec3TargetScreenSpace.z);
+
+                    // 把鼠标的屏幕空间坐标转换到世界空间坐标（Z值使用目标物体的屏幕空间坐标），加上偏移量，以此作为目标物体的世界空间坐标  
+
+                    _vec3TargetWorldSpace = TargetCamera.ScreenToWorldPoint(_vec3MouseScreenSpace) + _vec3Offset;
+
+                    // 更新目标物体的世界空间坐标   
+
+                    _trans.position = _vec3TargetWorldSpace;
+
+                    // 等待固定更新   
+
+                    yield return new WaitForFixedUpdate();
+                }
+            }
         }
-
-
-        // //只处理点击的触发顺序，先触发OnPointerDown, 再触发OnPointerUp，最后触发OnPointerClick
-        // //手指按下
-        // public void OnPointerDown(PointerEventData eventData)
-        // {
-        //     Debug.Log("OnPointerDown");
-        // }
-        // //手指抬起
-        // public void OnPointerUp(PointerEventData eventData)
-        // {
-        //     Debug.Log("OnPointerUp");
-        // }
-        // //点击
-        // public void OnPointerClick(PointerEventData eventData)
-        // {
-        //     Debug.Log("OnPointerClick");
-        // }
     }
-
-
-
 }
