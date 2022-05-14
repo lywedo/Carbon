@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Carbon.Model;
 using UnityEngine;
 
 namespace Carbon
@@ -8,13 +9,14 @@ namespace Carbon
     {
         public bool isInArea = false;
         public bool isTrigger = false;
-        private SpriteRenderer _spriteRenderer;
+        public SpriteRenderer _spriteRenderer;
+        public BoxCollider2D Collider2D;
         private bool _buildFinish = false;
 
-        private void Start()
-        {
-            _spriteRenderer = GetComponent<SpriteRenderer>();
-        }
+        // private void Awake()
+        // {
+        //     _spriteRenderer = GetComponent<SpriteRenderer>();
+        // }
 
         // IEnumerator CheckTrigger()
         // {
@@ -23,6 +25,15 @@ namespace Carbon
         //         
         //     }
         // }
+
+        public void SetSprite(Sprite sprite, Vector2 size, BoxCollider2DParam collider2DParam)
+        {
+            _spriteRenderer.sprite = sprite;
+            _spriteRenderer.size = size;
+            Collider2D.size = collider2DParam.Size;
+            Collider2D.offset = collider2DParam.Offest;
+
+        }
 
         public bool CanBuild()
         {

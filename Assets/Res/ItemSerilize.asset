@@ -16,57 +16,129 @@ MonoBehaviour:
   - Type: 0
     Price: 235
     CoverSprite: {fileID: 21300000, guid: fbf365fa01ffac54fb5495819c45f3e3, type: 3}
+    ShowWidth: 3
+    Collider2DParam:
+      Offest: {x: 0.019183159, y: -1.0294876}
+      Size: {x: 2.8543563, y: 1.9079947}
   - Type: 0
     Price: 235
     CoverSprite: {fileID: 21300000, guid: c82ca5839a863bf44bae1c6ca612c5dc, type: 3}
+    ShowWidth: 3
+    Collider2DParam:
+      Offest: {x: 0.019183159, y: -1.0294876}
+      Size: {x: 2.8543563, y: 1.9079947}
   - Type: 0
     Price: 2353
     CoverSprite: {fileID: 21300000, guid: 24261440961e2ae499087ec52f4d20c5, type: 3}
+    ShowWidth: 3
+    Collider2DParam:
+      Offest: {x: 0.019183159, y: -1.0294876}
+      Size: {x: 2.8543563, y: 1.9079947}
   - Type: 0
     Price: 223
     CoverSprite: {fileID: 21300000, guid: e0e67d1bef5e63f4a871086b19fd81d7, type: 3}
+    ShowWidth: 3
+    Collider2DParam:
+      Offest: {x: 0.019183159, y: -0.40328217}
+      Size: {x: 2.8543563, y: 1.5293593}
   - Type: 0
     Price: 454
     CoverSprite: {fileID: 21300000, guid: 127fe3bfd953a904c9b6d1e1a164ba69, type: 3}
+    ShowWidth: 3
+    Collider2DParam:
+      Offest: {x: 0.019183159, y: -1.0294876}
+      Size: {x: 2.8543563, y: 1.9079947}
   - Type: 0
     Price: 565
     CoverSprite: {fileID: 21300000, guid: d49147edc929eca41a605779b9c43a04, type: 3}
+    ShowWidth: 3
+    Collider2DParam:
+      Offest: {x: 0.019183159, y: -1.0294876}
+      Size: {x: 2.8543563, y: 1.9079947}
   - Type: 0
     Price: 456
     CoverSprite: {fileID: 21300000, guid: 666a8b4a9064c4846823425bb539e3b2, type: 3}
+    ShowWidth: 3
+    Collider2DParam:
+      Offest: {x: 0.019183159, y: -1.0294876}
+      Size: {x: 2.8543563, y: 1.9079947}
   - Type: 0
     Price: 322
     CoverSprite: {fileID: 21300000, guid: af254f6703a29704aad7b6ce29b7c3b0, type: 3}
+    ShowWidth: 3
+    Collider2DParam:
+      Offest: {x: 0.019183159, y: -1.0294876}
+      Size: {x: 2.8543563, y: 1.9079947}
   - Type: 0
     Price: 234
     CoverSprite: {fileID: 21300000, guid: 1358d0a549ecdf84cb25ae42b7cf8f61, type: 3}
+    ShowWidth: 3
+    Collider2DParam:
+      Offest: {x: -0.11386311, y: -2.2564692}
+      Size: {x: 3.1204488, y: 2.0558233}
   TreeItems:
   - Type: 1
     Price: 34
     CoverSprite: {fileID: 21300000, guid: 93e7af5064d024246a9e02518724fb73, type: 3}
+    ShowWidth: 3
+    Collider2DParam:
+      Offest: {x: -0.6348791, y: -1.9577367}
+      Size: {x: 1.6901658, y: 0.7068753}
   - Type: 1
     Price: 22
     CoverSprite: {fileID: 21300000, guid: 55743fbf17d946d439d74a6efc1b0317, type: 3}
+    ShowWidth: 3
+    Collider2DParam:
+      Offest: {x: -0.6348791, y: -1.9577367}
+      Size: {x: 1.6901658, y: 0.7068753}
   - Type: 1
     Price: 455
     CoverSprite: {fileID: 21300000, guid: 08e8a143a5ce966478437ca10adf1c54, type: 3}
+    ShowWidth: 3
+    Collider2DParam:
+      Offest: {x: -0.6348791, y: -1.9577367}
+      Size: {x: 1.6901658, y: 0.7068753}
   - Type: 1
     Price: 566
     CoverSprite: {fileID: 21300000, guid: 6cb6d949e3926c943b156761e2134cd2, type: 3}
+    ShowWidth: 3
+    Collider2DParam:
+      Offest: {x: -0.6348791, y: -1.9577367}
+      Size: {x: 1.6901658, y: 0.7068753}
   FlowerItems:
   - Type: 2
     Price: 66
     CoverSprite: {fileID: 21300000, guid: 27f8e3fb7c4338746959836fd1a7cdc4, type: 3}
+    ShowWidth: 5
+    Collider2DParam:
+      Offest: {x: 0.1897217, y: -0.00729689}
+      Size: {x: 3.1307218, y: 1.8902335}
   - Type: 2
     Price: 67
     CoverSprite: {fileID: 21300000, guid: 09d5e7ab935d44841a76372d504ae807, type: 3}
+    ShowWidth: 2
+    Collider2DParam:
+      Offest: {x: 0.02842778, y: -0.35890308}
+      Size: {x: 1.9665502, y: 1.0781766}
   FacilityItems:
   - Type: 3
     Price: 8
     CoverSprite: {fileID: 21300000, guid: c43cd5e9bab82e146b8512665fea8622, type: 3}
+    ShowWidth: 2
+    Collider2DParam:
+      Offest: {x: 0.015331507, y: 0.049061224}
+      Size: {x: 1.8647025, y: 1.0981222}
   - Type: 3
     Price: 99
     CoverSprite: {fileID: 21300000, guid: 98bace1481541754fb903a86e1d63b8d, type: 3}
+    ShowWidth: 2
+    Collider2DParam:
+      Offest: {x: 0.015331507, y: 0.049061224}
+      Size: {x: 1.8647025, y: 1.0981222}
   - Type: 3
     Price: 888
     CoverSprite: {fileID: 21300000, guid: 82721abb333bc5a4dbdf179e86ea03e1, type: 3}
+    ShowWidth: 2
+    Collider2DParam:
+      Offest: {x: 0.015331507, y: 0.049061224}
+      Size: {x: 1.8647025, y: 1.0981222}

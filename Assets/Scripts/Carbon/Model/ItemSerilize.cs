@@ -30,5 +30,14 @@ namespace Carbon.Model
         public ItemType Type;
         public int Price;
         public Sprite CoverSprite;
+        public float ShowWidth;
+        public BoxCollider2DParam Collider2DParam;
+    }
+
+    [Serializable] 
+    public class BoxCollider2DParam
+    {
+        public Vector2 Offest = Vector2.zero;
+        public Vector2 Size = Vector2.one;
     }
 }

@@ -23,6 +23,7 @@ namespace Carbon
         private GameObject _CurrentBunble;
         private bool _isMenuBtnClicked = false;
         private string _CurrentMenu = string.Empty;
+        private bool _MovingDrag = false;
 
         private void Awake()
         {
@@ -32,26 +33,50 @@ namespace Carbon
                 _cacheTileCover = ES3.Load<Dictionary<string, string>>(DateTimeHelper.GetToday());
                 // ES3.LoadInto(DateTimeHelper.GetToday(), _cacheTileCover);
             }
+
+            
+        }
+        
+
+        public void BubbleItemLongClick(Item item, Vector3 pos)
+        {
+            Debug.Log($"BubbleItemLongClick:{item.CoverSprite} {pos}");
+            _CurrentBunble.GetComponent<BubbleController>().HideItems();
+            Destroy(_CurrentBunble);
+            ModifyMenu();
+            _CurrentDrag = Instantiate(DragGO, Tile.transform);
+            var scale = item.CoverSprite.bounds.size.y / item.CoverSprite.bounds.size.x;
+            var width = item.ShowWidth;
+            var height = width * scale;
+            
+            _CurrentDrag.GetComponent<DragController>().SetSprite(item.CoverSprite, new Vector2(width, height), item.Collider2DParam);
+            // _CurrentDrag.transform.localScale = Vector3.one;
+            _CurrentDrag.transform.position = pos;
+            // _CurrentDrag.GetComponent<SortingGroup>().sortingOrder = _DragSortOrder;
+            _MovingDrag = true;
         }
 
 
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                _CurrentDrag = Instantiate(DragGO, Tile.transform);
-                _CurrentDrag.GetComponent<SortingGroup>().sortingOrder = _DragSortOrder;
-            }
-
-            if (Input.GetMouseButton(0))
+            // if (Input.GetMouseButtonDown(0))
+            // {
+            //     _CurrentDrag = Instantiate(DragGO, Tile.transform);
+            //     _CurrentDrag.GetComponent<SortingGroup>().sortingOrder = _DragSortOrder;
+            // }
+            //
+            if (Input.GetMouseButton(0) && _MovingDrag)
             {
                 Vector3 dis = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 dis.z = 0;
                 _CurrentDrag.transform.position = dis;
+                float yPos = _CurrentDrag.transform.position.y;
+                _CurrentDrag.GetComponent<SortingGroup>().sortingOrder = -Mathf.RoundToInt(yPos * 1000);
             }
-
-            if (Input.GetMouseButtonUp(0))
+            
+            if (Input.GetMouseButtonUp(0) && _MovingDrag)
             {
+                _MovingDrag = false;
                 if (!_CurrentDrag.GetComponent<DragController>().CanBuild())
                 {
                     Destroy(_CurrentDrag);
@@ -59,7 +84,7 @@ namespace Carbon
                 else
                 {
                     _CurrentDrag.GetComponent<DragController>().Build();
-                    _DragSortOrder++;
+                    // _DragSortOrder++;
                 }
             }
 
@@ -71,14 +96,25 @@ namespace Carbon
 
         private void ModifyMenu()
         {
+            BuildingBtn.SetActive(true);
+            TreeBtn.SetActive(true);
+            FlowerBtn.SetActive(true);
+            FacilityBtn.SetActive(true);
+            _CurrentMenu = String.Empty;
         }
 
         public void ClickMenu(GameObject menu)
         {
-            Destroy(_CurrentBunble);
+            if (null != _CurrentBunble)
+            {
+                _CurrentBunble.GetComponent<BubbleController>().BubbleLongPress -= BubbleItemLongClick;
+                Destroy(_CurrentBunble);
+            }
+            
             if (_CurrentMenu.Equals(string.Empty) || _CurrentMenu != menu.name)
             {
                 _CurrentBunble = Instantiate(BubblePrefab, menu.transform);
+                _CurrentBunble.GetComponent<BubbleController>().BubbleLongPress += BubbleItemLongClick;
                 switch (menu.name)
                 {
                     case "building":
@@ -115,11 +151,7 @@ namespace Carbon
             }
             else
             {
-                BuildingBtn.SetActive(true);
-                TreeBtn.SetActive(true);
-                FlowerBtn.SetActive(true);
-                FacilityBtn.SetActive(true);
-                _CurrentMenu = String.Empty;
+                ModifyMenu();
             }
             
         }
