@@ -65,7 +65,7 @@ namespace Carbon
             {
                 return;
             }
-            Debug.Log($"stay {other.gameObject.name}");
+            // Debug.Log($"stay {other.gameObject.name}");
             if (!other.gameObject.tag.Equals("Tile"))
             {
                 isTrigger = true;

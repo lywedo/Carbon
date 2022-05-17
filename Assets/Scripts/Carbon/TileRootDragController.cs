@@ -16,6 +16,7 @@
         private Vector3 _vec3MouseScreenSpace; // 鼠标的屏幕空间坐标  
         private Vector3 _vec3Offset; // 偏移 
         public Camera TargetCamera;
+        public int TouchLayer = 0;
 
         void Awake()
         {
@@ -35,7 +36,7 @@
             // }
             if (Input.GetMouseButtonDown(0))
             {
-                RaycastHit2D hit = Physics2D.Raycast(TargetCamera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 500, 1<<0);
+                RaycastHit2D hit = Physics2D.Raycast(TargetCamera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 500, 1<<TouchLayer);
                 if(hit.collider != null){
                     StartCoroutine(OnMouseDown());
                 }
@@ -77,11 +78,11 @@
         {
             if (IsTouchedUI())
             {
-                // Debug.Log("当前触摸在UI上");
+                Debug.Log("当前触摸在UI上");
             }
             else
             {
-                // Debug.Log("当前没有触摸在UI上");
+                Debug.Log("当前没有触摸在UI上");
                 // Debug.Log("onmousedown");
                 // 把目标物体的世界空间坐标转换到它自身的屏幕空间坐标   
 

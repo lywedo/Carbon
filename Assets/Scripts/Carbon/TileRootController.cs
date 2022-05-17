@@ -78,7 +78,9 @@ namespace Carbon
                 if (_cacheTileCover.ContainsKey(tileController.name))
                 {
                     tileController.Type = TileType.builded;
-                    tileController.NotifyTileType();
+                    string coverSprite;
+                    _cacheTileCover.TryGetValue(tileController.name, out coverSprite);
+                    tileController.NotifyTileType(coverSprite);
                 }
                 _tileDic.Add(tileController.name, tileController);
                 if (tileController.Type == TileType.None)

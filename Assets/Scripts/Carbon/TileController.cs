@@ -7,7 +7,7 @@ namespace Carbon
     public class TileController : MonoBehaviour
     {
         public TileType Type = TileType.None;
-        public GameObject Cover;
+        public SpriteRenderer Cover;
         public GameObject Up;
         private Vector3 _originVector3;
 
@@ -21,7 +21,7 @@ namespace Carbon
             NotifyTileType();
         }
 
-        public void NotifyTileType()
+        public void NotifyTileType(string coverSprite = null)
         {
             if (Type == TileType.None)
             {
@@ -29,13 +29,22 @@ namespace Carbon
             }else if (Type == TileType.Unbuild)
             {
                 Up.SetActive(true);
-                Cover.SetActive(false);
+                Cover.gameObject.SetActive(false);
                 gameObject.transform.localScale = _originVector3;
             }else if (Type == TileType.builded)
             {
                 Up.SetActive(false);
-                Cover.SetActive(true);
+                var loadImage = ES3.LoadImage(coverSprite);
+                // loadImage.Reinitialize(10, 10);
+                var sprite = Sprite.Create(loadImage,
+                    new Rect(0, 0, loadImage.width, loadImage.height), 
+                    new Vector2(0.5f,0.5f));
+             
+                Cover.sprite = sprite;
+                // Cover.size = new Vector2(100, 100);
+                Cover.gameObject.SetActive(true);
                 gameObject.transform.localScale = _originVector3;
+                Debug.Log($"NotifyTileType:{Cover.size}");
             }
         }
 
