@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,6 +11,7 @@ namespace Carbon
         public SpriteRenderer Cover;
         public GameObject Up;
         private Vector3 _originVector3;
+        public List<Transform> NeighborTiles = new List<Transform>();
 
         private void Awake()
         {

@@ -1,16 +1,53 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 namespace Carbon
 {
+    public class Test
+    {
+        [MenuItem("GameObject/InitTileNeighbor")]
+        private static void InitTileNeighbor()
+        {
+            Debug.Log(Selection.activeObject.name);
+            var componentsInChildren = Selection.activeObject.GetComponentsInChildren<TileController>();
+            foreach (var mainTile in componentsInChildren)
+            {
+                foreach (var otherTile in componentsInChildren)
+                {
+                    if (Vector2.Distance(mainTile.transform.position, otherTile.transform.position) < 4)
+                    {
+                        mainTile.NeighborTiles.Add(otherTile.transform);
+                    }
+                }
+                PrefabUtility.RecordPrefabInstancePropertyModifications(mainTile);
+            }
+            
+        }
+        [MenuItem("GameObject/ResetTileNeighbor")]
+        private static void ResetTileNeighbor()
+        {
+            Debug.Log(Selection.activeObject.name);
+            var componentsInChildren = Selection.activeObject.GetComponentsInChildren<TileController>();
+            foreach (var mainTile in componentsInChildren)
+            {
+                mainTile.NeighborTiles.Clear();
+                PrefabUtility.RecordPrefabInstancePropertyModifications(mainTile);
+            }
+        }
+    }
+
     public enum TileType
     {
         None,
         Unbuild,
         builded
     }
+
     public class TileRootController : MonoBehaviour
     {
         public Camera TileCamera;
@@ -18,7 +55,8 @@ namespace Carbon
         private Vector3 _cacheInputPos = Vector3.zero;
         public TileController FirstTile;
         private Dictionary<string, TileController> _tileDic = new Dictionary<string, TileController>();
-        private Dictionary<string, string> _cacheTileCover = new Dictionary<string, string>(); 
+        private Dictionary<string, string> _cacheTileCover = new Dictionary<string, string>();
+
         private void Start()
         {
             if (ES3.KeyExists(DateTimeHelper.GetToday()))
@@ -28,6 +66,8 @@ namespace Carbon
                 {
                     Debug.Log($"es3 {tileCover.Key} {tileCover.Value}");
                 }
+
+                Debug.Log($"neighbor:{FirstTile.NeighborTiles.Count}");
                 // ES3.LoadInto(DateTimeHelper.GetToday(), _cacheTileCover);
                 StartCoroutine(CheckTile());
             }
@@ -37,7 +77,6 @@ namespace Carbon
                 _tileDic.Add(FirstTile.name, FirstTile);
                 FirstTile.NotifyTileType();
             }
-            
         }
 
         private void OnDestroy()
@@ -47,9 +86,12 @@ namespace Carbon
 
         private void Update()
         {
-            if (Input.GetMouseButtonDown (0)) { //检测鼠标左键是否点击
-                RaycastHit2D hit = Physics2D.Raycast(TileCamera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 500, 1<<3);
-                if(hit.collider != null)
+            if (Input.GetMouseButtonDown(0))
+            {
+                //检测鼠标左键是否点击
+                RaycastHit2D hit = Physics2D.Raycast(TileCamera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero,
+                    500, 1 << 3);
+                if (hit.collider != null)
                 {
                     _press = true;
                     _cacheInputPos = Input.mousePosition;
@@ -62,14 +104,15 @@ namespace Carbon
                 {
                     _press = false;
                 }
-                
             }
 
             if (Input.GetMouseButtonUp(0))
             {
-                RaycastHit2D hit = Physics2D.Raycast(TileCamera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 500, 1<<3);
-                if(hit.collider != null && _press){
-                    Debug.Log ($"Hitmouseup! {hit.collider.name}");
+                RaycastHit2D hit = Physics2D.Raycast(TileCamera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero,
+                    500, 1 << 3);
+                if (hit.collider != null && _press)
+                {
+                    Debug.Log($"Hitmouseup! {hit.collider.name}");
                     _tileDic[hit.collider.name].OnClickHandler();
                 }
             }
@@ -88,11 +131,11 @@ namespace Carbon
                     tileTransforms.Add(cacheTileTransform);
                 }
             }
+
             // var tileTransforms = gameObject.GetComponentsInChildren<Transform>();
             // Debug.Log($"tilecontrollers:{tileControllers.Length}");
             foreach (var tileController in tileControllers)
             {
-                
                 if (_cacheTileCover.ContainsKey(tileController.name))
                 {
                     tileController.Type = TileType.builded;
@@ -101,30 +144,35 @@ namespace Carbon
                     tileController.NotifyTileType(coverSprite);
                     // Debug.Log($"checktile: {tileController.name} {tileController.Type} {coverSprite}");
                 }
-                _tileDic.Add(tileController.name, tileController);
 
+                _tileDic.Add(tileController.name, tileController);
             }
+
             foreach (var key in _cacheTileCover.Keys)
             {
-                NotifyNearestTileTypeNone(_tileDic[key].transform, tileTransforms);
+                NotifyNearestTileTypeNone(_tileDic[key].transform,
+                    _tileDic[key].NeighborTiles.Count == 0 ? tileTransforms : _tileDic[key].NeighborTiles);
                 yield return new WaitForSeconds(0.0001f);
             }
-            
+            Debug.Log($"calucateSum: {_caculateSum}");
         }
 
+        private int _caculateSum = 0;
         private void NotifyNearestTileTypeNone(Transform player, List<Transform> objects)
         {
             foreach (var o in objects)
             {
                 var tileController = o.GetComponent<TileController>();
-                if (Vector2.Distance(player.position, o.position) < 4 && tileController.Type == TileType.None)
+                if (tileController.Type == TileType.None)
                 {
                     tileController.Type = TileType.Unbuild;
                     tileController.NotifyTileType();
                 }
+
+                _caculateSum++;
             }
         }
-        
+
         /// <summary> 筛选出最佳物体 </summary> 
         private bool GetNearestGameObjectTileType(Transform player, List<Transform> objects)
         {
@@ -132,8 +180,9 @@ namespace Carbon
 
             bool tileType = false;
             for (int i = 1; i < objects.Count; i++)
-            { 
-                Debug.Log($"distance:{player.name} {objects[i].name} {Vector3.Distance(player.position, objects[i].position)}");
+            {
+                Debug.Log(
+                    $"distance:{player.name} {objects[i].name} {Vector3.Distance(player.position, objects[i].position)}");
                 if (Vector3.Distance(player.position, objects[i].position) < 4.5)
                 {
                     // nearGameObjects.Add(objects[i]);
@@ -143,10 +192,9 @@ namespace Carbon
                     }
                 }
             }
- 
+
             // Debug.Log($"GetNearestGameObjectTileType: {player.name}{nearGameObjects.Count} {tileType}");
             return tileType;
         }
-        
     }
 }

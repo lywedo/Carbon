@@ -10,7 +10,7 @@ namespace Carbon
     {
         public GameObject CloudRoot;
         public Slider Slider;
-        public GameObject TileRoot;
+        // public GameObject TileRoot;
         public Camera TileCamera;
 
         private float _cacheSliderValue = 0;
