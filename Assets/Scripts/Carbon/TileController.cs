@@ -14,10 +14,6 @@ namespace Carbon
         private void Awake()
         {
             _originVector3 = transform.localScale;
-        }
-
-        private void Start()
-        {
             NotifyTileType();
         }
 
@@ -35,7 +31,7 @@ namespace Carbon
             {
                 Up.SetActive(false);
                 var loadImage = ES3.LoadImage(coverSprite);
-                // loadImage.Reinitialize(10, 10);
+                // loadImage.Reinitialize(loadImage.width, loadImage.height);
                 var sprite = Sprite.Create(loadImage,
                     new Rect(0, 0, loadImage.width, loadImage.height), 
                     new Vector2(0.5f,0.5f));

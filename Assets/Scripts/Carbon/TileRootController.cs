@@ -16,6 +16,7 @@ namespace Carbon
         public Camera TileCamera;
         private bool _press = false;
         private Vector3 _cacheInputPos = Vector3.zero;
+        public TileController FirstTile;
         private Dictionary<string, TileController> _tileDic = new Dictionary<string, TileController>();
         private Dictionary<string, string> _cacheTileCover = new Dictionary<string, string>(); 
         private void Start()
@@ -28,8 +29,15 @@ namespace Carbon
                     Debug.Log($"es3 {tileCover.Key} {tileCover.Value}");
                 }
                 // ES3.LoadInto(DateTimeHelper.GetToday(), _cacheTileCover);
+                StartCoroutine(CheckTile());
             }
-            StartCoroutine(CheckTile());
+            else
+            {
+                FirstTile.Type = TileType.Unbuild;
+                _tileDic.Add(FirstTile.name, FirstTile);
+                FirstTile.NotifyTileType();
+            }
+            
         }
 
         private void OnDestroy()
@@ -69,44 +77,64 @@ namespace Carbon
 
         IEnumerator CheckTile()
         {
+            // _tileDic.Clear();
             var tileControllers = gameObject.GetComponentsInChildren<TileController>();
-            var tileTransforms = gameObject.GetComponentsInChildren<Transform>();
-            Debug.Log($"tilecontrollers:{tileControllers.Length}");
+            var cacheTileTransforms = gameObject.GetComponentsInChildren<Transform>();
+            List<Transform> tileTransforms = new List<Transform>();
+            foreach (var cacheTileTransform in cacheTileTransforms)
+            {
+                if (cacheTileTransform.tag.Equals("Tile"))
+                {
+                    tileTransforms.Add(cacheTileTransform);
+                }
+            }
+            // var tileTransforms = gameObject.GetComponentsInChildren<Transform>();
+            // Debug.Log($"tilecontrollers:{tileControllers.Length}");
             foreach (var tileController in tileControllers)
             {
-                Debug.Log($"checktile: {tileController.name}");
+                
                 if (_cacheTileCover.ContainsKey(tileController.name))
                 {
                     tileController.Type = TileType.builded;
                     string coverSprite;
                     _cacheTileCover.TryGetValue(tileController.name, out coverSprite);
                     tileController.NotifyTileType(coverSprite);
+                    // Debug.Log($"checktile: {tileController.name} {tileController.Type} {coverSprite}");
                 }
                 _tileDic.Add(tileController.name, tileController);
-                if (tileController.Type == TileType.None)
-                {
-                    if (GetNearestGameObjectTileType(tileController.transform, tileTransforms))
-                    {
-                        tileController.Type = TileType.Unbuild;
-                        tileController.NotifyTileType();
-                    }
-                }
-                
+
+            }
+            foreach (var key in _cacheTileCover.Keys)
+            {
+                NotifyNearestTileTypeNone(_tileDic[key].transform, tileTransforms);
                 yield return new WaitForSeconds(0.0001f);
             }
-
             
+        }
+
+        private void NotifyNearestTileTypeNone(Transform player, List<Transform> objects)
+        {
+            foreach (var o in objects)
+            {
+                var tileController = o.GetComponent<TileController>();
+                if (Vector2.Distance(player.position, o.position) < 4 && tileController.Type == TileType.None)
+                {
+                    tileController.Type = TileType.Unbuild;
+                    tileController.NotifyTileType();
+                }
+            }
         }
         
         /// <summary> 筛选出最佳物体 </summary> 
-        private bool GetNearestGameObjectTileType(Transform player, Transform[] objects)
+        private bool GetNearestGameObjectTileType(Transform player, List<Transform> objects)
         {
             // List<Transform> nearGameObjects = new List<Transform>();
 
             bool tileType = false;
-            for (int i = 1; i < objects.Length; i++)
+            for (int i = 1; i < objects.Count; i++)
             { 
-                if (Vector3.Distance(player.position, objects[i].position) < 4)
+                Debug.Log($"distance:{player.name} {objects[i].name} {Vector3.Distance(player.position, objects[i].position)}");
+                if (Vector3.Distance(player.position, objects[i].position) < 4.5)
                 {
                     // nearGameObjects.Add(objects[i]);
                     if (objects[i].GetComponent<TileController>()?.Type == TileType.builded)
