@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Carbon
 {
@@ -26,7 +28,8 @@ namespace Carbon
                 }
                 PrefabUtility.RecordPrefabInstancePropertyModifications(mainTile);
             }
-            
+
+            EditorSceneManager.SaveScene(SceneManager.GetActiveScene());
         }
         [MenuItem("GameObject/ResetTileNeighbor")]
         private static void ResetTileNeighbor()
@@ -38,6 +41,7 @@ namespace Carbon
                 mainTile.NeighborTiles.Clear();
                 PrefabUtility.RecordPrefabInstancePropertyModifications(mainTile);
             }
+            EditorSceneManager.SaveScene(SceneManager.GetActiveScene());
         }
     }
 
@@ -62,13 +66,11 @@ namespace Carbon
             if (ES3.KeyExists(DateTimeHelper.GetToday()))
             {
                 _cacheTileCover = ES3.Load<Dictionary<string, string>>(DateTimeHelper.GetToday());
-                foreach (var tileCover in _cacheTileCover)
-                {
-                    Debug.Log($"es3 {tileCover.Key} {tileCover.Value}");
-                }
+                // foreach (var tileCover in _cacheTileCover)
+                // {
+                //     Debug.Log($"es3 {tileCover.Key} {tileCover.Value}");
+                // }
 
-                Debug.Log($"neighbor:{FirstTile.NeighborTiles.Count}");
-                // ES3.LoadInto(DateTimeHelper.GetToday(), _cacheTileCover);
                 StartCoroutine(CheckTile());
             }
             else

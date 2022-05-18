@@ -32,6 +32,9 @@ namespace Carbon
         public Camera TileCamera;
         public Camera CaptureCamera;
         public RectTransform CaptureRect;
+        public GameObject NormalCanvasRoot;
+        public GameObject ShareCanvasRoot;
+        public Image ScreenShot;
 
         private void Awake()
         {
@@ -41,8 +44,32 @@ namespace Carbon
                 _cacheTileCover = ES3.Load<Dictionary<string, string>>(DateTimeHelper.GetToday());
                 // ES3.LoadInto(DateTimeHelper.GetToday(), _cacheTileCover);
             }
-
             
+        }
+
+        private void ShowShare()
+        {
+            TileCamera.gameObject.SetActive(false);
+            NormalCanvasRoot.SetActive(false);
+            ShareCanvasRoot.SetActive(true);
+        }
+
+        private void HideShare()
+        {
+            
+        }
+
+        public void GeneralCaptureOnclick()
+        {
+            var path = SaveRenderTexture(CaptureCamera.targetTexture);
+            _cacheTileCover.Add(_tileName, path);
+            ES3.Save(DateTimeHelper.GetToday(), _cacheTileCover);
+            var loadImage = ES3.LoadImage(path);
+            ScreenShot.sprite = Sprite.Create(loadImage,
+                new Rect(0, 0, loadImage.width, loadImage.height), 
+                new Vector2(0.5f,0.5f)); 
+                
+            ShowShare();
         }
         
 
