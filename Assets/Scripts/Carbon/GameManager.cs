@@ -35,6 +35,7 @@ namespace Carbon
         public GameObject NormalCanvasRoot;
         public GameObject ShareCanvasRoot;
         public Image ScreenShot;
+        public Text EnergyValue;
 
         private void Awake()
         {
@@ -44,7 +45,8 @@ namespace Carbon
                 _cacheTileCover = ES3.Load<Dictionary<string, string>>(DateTimeHelper.GetToday());
                 // ES3.LoadInto(DateTimeHelper.GetToday(), _cacheTileCover);
             }
-            
+
+            EnergyValue.text = GlobalVariable.Energy.ToString();
         }
 
         private void ShowShare()

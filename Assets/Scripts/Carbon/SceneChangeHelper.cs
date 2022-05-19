@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 
 public enum ParamKey
 {
-    MapClickTile
+    MapClickTile,
+    HttpServer
 } 
 
 public class SceneChangeHelper

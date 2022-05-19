@@ -78,11 +78,11 @@
         {
             if (IsTouchedUI())
             {
-                Debug.Log("当前触摸在UI上");
+                // Debug.Log("当前触摸在UI上");
             }
             else
             {
-                Debug.Log("当前没有触摸在UI上");
+                // Debug.Log("当前没有触摸在UI上");
                 // Debug.Log("onmousedown");
                 // 把目标物体的世界空间坐标转换到它自身的屏幕空间坐标   
 

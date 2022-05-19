@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using DG.Tweening;
+using Server;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,18 +15,33 @@ namespace Carbon
         public Camera TileCamera;
 
         private float _cacheSliderValue = 0;
+        private UnityHttpServer _server;
 
         private void Start()
         {
             _cacheSliderValue = 0;
-            
+            _server = UnityHttpServer.Instance;
+            if (_server != null) _server.ReceiveEnergyListener += ReceiveEnergy;
+        }
+
+        private void ReceiveEnergy(int energy)
+        {
+            GlobalVariable.Energy = energy;
+            DispearCloud();
+            Debug.Log($"recv:{energy}");
+        }
+
+        private void OnDestroy()
+        {
+            if (_server.ReceiveEnergyListener != null) _server.ReceiveEnergyListener -= ReceiveEnergy;
         }
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.A))
             {
-                StartCoroutine(DispearCloud());
+                // StartCoroutine(DispearCloud());
+                DispearCloud();
             }
 
             if (Math.Abs(_cacheSliderValue - Slider.value) > 0.1)
@@ -37,7 +53,7 @@ namespace Carbon
             }
         }
 
-        IEnumerator DispearCloud()
+        private void DispearCloud()
         {
             foreach (var sprite in CloudRoot.GetComponentsInChildren<SpriteRenderer>())
             {
@@ -52,7 +68,7 @@ namespace Carbon
                 sprite.DOFade(0, 2);
             }
 
-            yield return 0;
+            // yield return 0;
         }
     }
 }
