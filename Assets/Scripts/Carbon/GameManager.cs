@@ -36,6 +36,7 @@ namespace Carbon
         public GameObject ShareCanvasRoot;
         public Image ScreenShot;
         public Text EnergyValue;
+        public GameObject NotEnoughEnergy;
 
         private void Awake()
         {
@@ -46,7 +47,7 @@ namespace Carbon
                 // ES3.LoadInto(DateTimeHelper.GetToday(), _cacheTileCover);
             }
 
-            EnergyValue.text = GlobalVariable.Energy.ToString();
+            RefreshEnergyText();
         }
 
         private void ShowShare()
@@ -56,9 +57,9 @@ namespace Carbon
             ShareCanvasRoot.SetActive(true);
         }
 
-        private void HideShare()
+        public void HideNotice()
         {
-            
+            NotEnoughEnergy.SetActive(false);
         }
 
         public void GeneralCaptureOnclick()
@@ -78,6 +79,12 @@ namespace Carbon
         public void BubbleItemLongClick(Item item, Vector3 pos)
         {
             Debug.Log($"BubbleItemLongClick:{item.CoverSprite} {pos}");
+            if (GlobalVariable.Energy - item.Price < 0)
+            {
+                NotEnoughEnergy.SetActive(true);
+                Debug.Log("能量不足");
+                return;
+            }
             _CurrentBunble.GetComponent<BubbleController>().HideItems();
             Destroy(_CurrentBunble);
             ModifyMenu();
@@ -85,12 +92,17 @@ namespace Carbon
             var scale = item.CoverSprite.bounds.size.y / item.CoverSprite.bounds.size.x;
             var width = item.ShowWidth;
             var height = width * scale;
-            
+            _CurrentDrag.GetComponent<DragController>().DragItem = item;
             _CurrentDrag.GetComponent<DragController>().SetSprite(item.CoverSprite, new Vector2(width, height), item.Collider2DParam);
             // _CurrentDrag.transform.localScale = Vector3.one;
             _CurrentDrag.transform.position = pos;
             // _CurrentDrag.GetComponent<SortingGroup>().sortingOrder = _DragSortOrder;
             _MovingDrag = true;
+        }
+
+        private void RefreshEnergyText()
+        {
+            EnergyValue.text = GlobalVariable.Energy.ToString();
         }
 
 

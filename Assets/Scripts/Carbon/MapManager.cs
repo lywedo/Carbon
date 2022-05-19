@@ -33,7 +33,7 @@ namespace Carbon
 
         private void OnDestroy()
         {
-            if (_server.ReceiveEnergyListener != null) _server.ReceiveEnergyListener -= ReceiveEnergy;
+            if (_server?.ReceiveEnergyListener != null) _server.ReceiveEnergyListener -= ReceiveEnergy;
         }
 
         private void Update()

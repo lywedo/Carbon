@@ -12,6 +12,7 @@ namespace Carbon
         public SpriteRenderer _spriteRenderer;
         public BoxCollider2D Collider2D;
         private bool _buildFinish = false;
+        public Item DragItem;
 
         // private void Awake()
         // {
@@ -43,6 +44,7 @@ namespace Carbon
         public void Build()
         {
             _buildFinish = true;
+            GlobalVariable.Energy -= DragItem.Price;
             // StopAllCoroutines();
         }
 
