@@ -48,7 +48,7 @@ namespace Carbon
 
         public async void OnClickHandler()
         {
-            if (Type == TileType.Unbuild)
+            if (Type == TileType.Unbuild && !GlobalVariable.DragLock)
             {
                 SceneChangeHelper.AddParam(ParamKey.MapClickTile, name);
                 await SceneChangeHelper.PreChangeSceneAsync("Game");

@@ -31,7 +31,8 @@ namespace Carbon.Model
         public int Price;
         public Sprite CoverSprite;
         public float ShowWidth;
-        public BoxCollider2DParam Collider2DParam;
+        // public BoxCollider2DParam Collider2DParam;
+        public PolygonCollider2DParam Polygon2DParam;
     }
 
     [Serializable] 
@@ -39,5 +40,11 @@ namespace Carbon.Model
     {
         public Vector2 Offest = Vector2.zero;
         public Vector2 Size = Vector2.one;
+    }
+
+    [Serializable] 
+    public class PolygonCollider2DParam
+    {
+        public Vector2[] points;
     }
 }

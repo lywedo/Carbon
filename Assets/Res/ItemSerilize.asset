@@ -17,135 +17,211 @@ MonoBehaviour:
     Price: 235
     CoverSprite: {fileID: 21300000, guid: fbf365fa01ffac54fb5495819c45f3e3, type: 3}
     ShowWidth: 3
-    Collider2DParam:
-      Offest: {x: 0.019183159, y: -1.0294876}
-      Size: {x: 2.8543563, y: 1.9079947}
+    Polygon2DParam:
+      points:
+      - {x: 1.4816439, y: 1.449474}
+      - {x: -1.375031, y: 1.9059641}
+      - {x: -1.5525837, y: 0.9289832}
+      - {x: 0.42740062, y: -0.041086435}
+      - {x: 1.5101489, y: 0.68166566}
   - Type: 0
     Price: 235
     CoverSprite: {fileID: 21300000, guid: c82ca5839a863bf44bae1c6ca612c5dc, type: 3}
     ShowWidth: 3
-    Collider2DParam:
-      Offest: {x: 0.019183159, y: -1.0294876}
-      Size: {x: 2.8543563, y: 1.9079947}
+    Polygon2DParam:
+      points:
+      - {x: -1.4921237, y: 2.26944}
+      - {x: -1.5867772, y: 1.0238851}
+      - {x: 0.37539846, y: 0.023264647}
+      - {x: 1.5478752, y: 0.6846702}
+      - {x: 1.5092208, y: 1.3912921}
   - Type: 0
     Price: 2353
     CoverSprite: {fileID: 21300000, guid: 24261440961e2ae499087ec52f4d20c5, type: 3}
     ShowWidth: 3
-    Collider2DParam:
-      Offest: {x: 0.019183159, y: -1.0294876}
-      Size: {x: 2.8543563, y: 1.9079947}
+    Polygon2DParam:
+      points:
+      - {x: -1.4457822, y: 1.333534}
+      - {x: -1.5403049, y: 0.6850962}
+      - {x: -0.113304526, y: -0.011885166}
+      - {x: 1.5513624, y: 0.9150485}
+      - {x: 1.5054837, y: 1.4612294}
   - Type: 0
     Price: 223
     CoverSprite: {fileID: 21300000, guid: e0e67d1bef5e63f4a871086b19fd81d7, type: 3}
     ShowWidth: 3
-    Collider2DParam:
-      Offest: {x: 0.019183159, y: -0.40328217}
-      Size: {x: 2.8543563, y: 1.5293593}
+    Polygon2DParam:
+      points:
+      - {x: -1.4513112, y: 1.2484202}
+      - {x: -1.499955, y: 0.7746473}
+      - {x: 0.11698629, y: 0.010125995}
+      - {x: 1.4866903, y: 0.67515373}
+      - {x: 1.4352831, y: 1.0217893}
   - Type: 0
     Price: 454
     CoverSprite: {fileID: 21300000, guid: 127fe3bfd953a904c9b6d1e1a164ba69, type: 3}
     ShowWidth: 3
-    Collider2DParam:
-      Offest: {x: 0.019183159, y: -1.0294876}
-      Size: {x: 2.8543563, y: 1.9079947}
+    Polygon2DParam:
+      points:
+      - {x: 1.4380016, y: 1.2478623}
+      - {x: -1.4817512, y: 1.4531687}
+      - {x: -1.5756844, y: 0.9880141}
+      - {x: 0.2081396, y: -0.06334841}
+      - {x: 1.5054836, y: 0.71499085}
   - Type: 0
     Price: 565
     CoverSprite: {fileID: 21300000, guid: d49147edc929eca41a605779b9c43a04, type: 3}
     ShowWidth: 3
-    Collider2DParam:
-      Offest: {x: 0.019183159, y: -1.0294876}
-      Size: {x: 2.8543563, y: 1.9079947}
+    Polygon2DParam:
+      points:
+      - {x: -1.4530016, y: 1.4524137}
+      - {x: -1.5076973, y: 0.53509176}
+      - {x: -0.57349694, y: 0.012465954}
+      - {x: 1.4729527, y: 1.194027}
+      - {x: 1.3767481, y: 2.15349}
   - Type: 0
     Price: 456
     CoverSprite: {fileID: 21300000, guid: 666a8b4a9064c4846823425bb539e3b2, type: 3}
     ShowWidth: 3
-    Collider2DParam:
-      Offest: {x: 0.019183159, y: -1.0294876}
-      Size: {x: 2.8543563, y: 1.9079947}
+    Polygon2DParam:
+      points:
+      - {x: -1.5076982, y: 0.7632119}
+      - {x: -1.5234643, y: 0.36905724}
+      - {x: -0.74564844, y: -0.050293088}
+      - {x: 1.5466275, y: 1.336219}
+      - {x: 1.5725299, y: 1.6368042}
   - Type: 0
     Price: 322
     CoverSprite: {fileID: 21300000, guid: af254f6703a29704aad7b6ce29b7c3b0, type: 3}
     ShowWidth: 3
-    Collider2DParam:
-      Offest: {x: 0.019183159, y: -1.0294876}
-      Size: {x: 2.8543563, y: 1.9079947}
+    Polygon2DParam:
+      points:
+      - {x: -1.4987514, y: 1.6611305}
+      - {x: -1.3979838, y: 1.0370897}
+      - {x: 0.13616082, y: -0.03329587}
+      - {x: 1.5780002, y: 0.7790737}
   - Type: 0
     Price: 234
     CoverSprite: {fileID: 21300000, guid: 1358d0a549ecdf84cb25ae42b7cf8f61, type: 3}
     ShowWidth: 3
-    Collider2DParam:
-      Offest: {x: -0.11386311, y: -2.2564692}
-      Size: {x: 3.1204488, y: 2.0558233}
+    Polygon2DParam:
+      points:
+      - {x: 1.1917796, y: 1.6667225}
+      - {x: -1.5054147, y: 1.8291636}
+      - {x: -1.5468447, y: 0.78341746}
+      - {x: -0.16086212, y: -0.0013666153}
+      - {x: 1.241509, y: 0.7403798}
   TreeItems:
   - Type: 1
     Price: 34
     CoverSprite: {fileID: 21300000, guid: 93e7af5064d024246a9e02518724fb73, type: 3}
     ShowWidth: 3
-    Collider2DParam:
-      Offest: {x: -0.6348791, y: -1.9577367}
-      Size: {x: 1.6901658, y: 0.7068753}
+    Polygon2DParam:
+      points:
+      - {x: -1.4357414, y: 0.8054111}
+      - {x: -1.4253318, y: 0.040123463}
+      - {x: 0.012238964, y: 0.04222107}
+      - {x: 0.32829675, y: 0.6122637}
   - Type: 1
     Price: 22
     CoverSprite: {fileID: 21300000, guid: 55743fbf17d946d439d74a6efc1b0317, type: 3}
     ShowWidth: 3
-    Collider2DParam:
-      Offest: {x: -0.6348791, y: -1.9577367}
-      Size: {x: 1.6901658, y: 0.7068753}
+    Polygon2DParam:
+      points:
+      - {x: -0.4940955, y: 0.5935407}
+      - {x: -0.7190972, y: 0.15782928}
+      - {x: 0.71847355, y: -0.14610812}
+      - {x: 0.9403666, y: 0.32976976}
   - Type: 1
     Price: 455
     CoverSprite: {fileID: 21300000, guid: 08e8a143a5ce966478437ca10adf1c54, type: 3}
     ShowWidth: 3
-    Collider2DParam:
-      Offest: {x: -0.6348791, y: -1.9577367}
-      Size: {x: 1.6901658, y: 0.7068753}
+    Polygon2DParam:
+      points:
+      - {x: -1.46138, y: 1.614123}
+      - {x: -1.5355883, y: 0.92780924}
+      - {x: -0.17834985, y: -0.24477935}
+      - {x: 1.5153775, y: 0.40955496}
+      - {x: 1.5703857, y: 1.2887409}
   - Type: 1
     Price: 566
     CoverSprite: {fileID: 21300000, guid: 6cb6d949e3926c943b156761e2134cd2, type: 3}
     ShowWidth: 3
-    Collider2DParam:
-      Offest: {x: -0.6348791, y: -1.9577367}
-      Size: {x: 1.6901658, y: 0.7068753}
+    Polygon2DParam:
+      points:
+      - {x: -1.1009606, y: 1.2869558}
+      - {x: -1.5156897, y: 0.04633963}
+      - {x: 1.5111839, y: 0.018991113}
+      - {x: 1.1092734, y: 1.2983766}
   FlowerItems:
   - Type: 2
     Price: 67
     CoverSprite: {fileID: 21300000, guid: 09d5e7ab935d44841a76372d504ae807, type: 3}
     ShowWidth: 2
-    Collider2DParam:
-      Offest: {x: 0.02842778, y: -0.35890308}
-      Size: {x: 1.9665502, y: 1.0781766}
+    Polygon2DParam:
+      points:
+      - {x: -0.113318875, y: 1.2387878}
+      - {x: -0.9649193, y: 0.5783868}
+      - {x: -0.03935027, y: -0.019465975}
+      - {x: 0.9368715, y: 0.5817327}
   - Type: 2
     Price: 66
     CoverSprite: {fileID: 21300000, guid: 27f8e3fb7c4338746959836fd1a7cdc4, type: 3}
     ShowWidth: 5
-    Collider2DParam:
-      Offest: {x: 0.1897217, y: -0.00729689}
-      Size: {x: 3.1307218, y: 1.8902335}
+    Polygon2DParam:
+      points:
+      - {x: 0.95481485, y: 1.7762619}
+      - {x: -1.1363102, y: 1.6832736}
+      - {x: -1.4089808, y: 1.2820394}
+      - {x: -2.5060103, y: 1.5271995}
+      - {x: -2.6027021, y: 0.6763581}
+      - {x: -1.4232112, y: 0.6514639}
+      - {x: -0.9730196, y: 0.20525208}
+      - {x: -0.24741259, y: 0.06708443}
+      - {x: 0.6604353, y: -0.028018832}
+      - {x: 1.6768425, y: 0.66161853}
+      - {x: 2.682891, y: 0.9824994}
+      - {x: 1.6212751, y: 1.3201334}
   - Type: 2
     Price: 86
     CoverSprite: {fileID: 21300000, guid: cf75ca6c73443fb48a965b9ad02f17a2, type: 3}
     ShowWidth: 7
-    Collider2DParam:
-      Offest: {x: 0.1897217, y: -0.00729689}
-      Size: {x: 3.1307218, y: 1.8902335}
+    Polygon2DParam:
+      points:
+      - {x: -3.9794025, y: 2.4967656}
+      - {x: -2.3159537, y: 1.5734957}
+      - {x: -0.58566165, y: 0.42402548}
+      - {x: 1.488485, y: -0.23876917}
+      - {x: 3.5926416, y: 0.8793651}
+      - {x: -1.4880179, y: 3.1343305}
   FacilityItems:
   - Type: 3
     Price: 8
     CoverSprite: {fileID: 21300000, guid: c43cd5e9bab82e146b8512665fea8622, type: 3}
     ShowWidth: 2
-    Collider2DParam:
-      Offest: {x: 0.015331507, y: 0.049061224}
-      Size: {x: 1.8647025, y: 1.0981222}
+    Polygon2DParam:
+      points:
+      - {x: -0.043908298, y: 1.2610364}
+      - {x: -0.8854683, y: 0.69505996}
+      - {x: 0.04464461, y: 0.10214102}
+      - {x: 1.01384, y: 0.6567147}
   - Type: 3
     Price: 99
     CoverSprite: {fileID: 21300000, guid: 98bace1481541754fb903a86e1d63b8d, type: 3}
     ShowWidth: 2
-    Collider2DParam:
-      Offest: {x: 0.015331507, y: 0.049061224}
-      Size: {x: 1.8647025, y: 1.0981222}
+    Polygon2DParam:
+      points:
+      - {x: -0.033242367, y: 1.2253563}
+      - {x: -0.90974635, y: 0.6358393}
+      - {x: -0.025978629, y: 0.065724306}
+      - {x: 0.8832587, y: 0.6324371}
   - Type: 3
     Price: 888
     CoverSprite: {fileID: 21300000, guid: 82721abb333bc5a4dbdf179e86ea03e1, type: 3}
     ShowWidth: 2
-    Collider2DParam:
-      Offest: {x: 0.015331507, y: 0.049061224}
-      Size: {x: 1.8647025, y: 1.0981222}
+    Polygon2DParam:
+      points:
+      - {x: -0.05604718, y: 1.2367591}
+      - {x: -0.9325509, y: 0.69579643}
+      - {x: 0.009701163, y: 0.11501604}
+      - {x: 0.97815996, y: 0.5974932}

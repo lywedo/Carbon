@@ -93,7 +93,7 @@ namespace Carbon
             var width = item.ShowWidth;
             var height = width * scale;
             _CurrentDrag.GetComponent<DragController>().DragItem = item;
-            _CurrentDrag.GetComponent<DragController>().SetSprite(item.CoverSprite, new Vector2(width, height), item.Collider2DParam);
+            _CurrentDrag.GetComponent<DragController>().SetSprite(item.CoverSprite, new Vector2(width, height), item.Polygon2DParam);
             // _CurrentDrag.transform.localScale = Vector3.one;
             _CurrentDrag.transform.position = pos;
             // _CurrentDrag.GetComponent<SortingGroup>().sortingOrder = _DragSortOrder;
@@ -155,6 +155,12 @@ namespace Carbon
                 _cacheTileCover.Add(_tileName, SaveRenderTexture(CaptureCamera.targetTexture));
                 ES3.Save(DateTimeHelper.GetToday(), _cacheTileCover);
                 BackToMap();
+            }
+
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                GlobalVariable.Energy = 9999;
+                RefreshEnergyText();
             }
         }
 

@@ -10,7 +10,8 @@ namespace Carbon
         public bool isInArea = false;
         public bool isTrigger = false;
         public SpriteRenderer _spriteRenderer;
-        public BoxCollider2D Collider2D;
+        // public BoxCollider2D Collider2D;
+        public PolygonCollider2D Polygon;
         private bool _buildFinish = false;
         public Item DragItem;
 
@@ -27,13 +28,14 @@ namespace Carbon
         //     }
         // }
 
-        public void SetSprite(Sprite sprite, Vector2 size, BoxCollider2DParam collider2DParam)
+        public void SetSprite(Sprite sprite, Vector2 size, PolygonCollider2DParam polygon2dparam)
         {
             _spriteRenderer.sprite = sprite;
             _spriteRenderer.size = size;
-            Collider2D.size = collider2DParam.Size;
-            Collider2D.offset = collider2DParam.Offest;
-
+            // Collider2D.size = collider2DParam.Size;
+            // Collider2D.offset = collider2DParam.Offest;
+            Debug.Log($"setsprite:{polygon2dparam.points.Length}");
+            Polygon.points = polygon2dparam.points;
         }
 
         public bool CanBuild()
