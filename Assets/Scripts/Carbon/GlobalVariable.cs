@@ -2,6 +2,7 @@
 {
     public class GlobalVariable
     {
-        public static int Energy = 0;
+        public static int Energy = 2000;
+        public static bool DragLock = false;
     }
 }

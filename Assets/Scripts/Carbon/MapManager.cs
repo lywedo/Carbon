@@ -16,9 +16,11 @@ namespace Carbon
 
         private float _cacheSliderValue = 0;
         private UnityHttpServer _server;
+        // public TileRootDragController TileRootDragController;
 
         private void Start()
         {
+            GlobalVariable.DragLock = true;
             _cacheSliderValue = 0;
             _server = UnityHttpServer.Instance;
             if (_server != null) _server.ReceiveEnergyListener += ReceiveEnergy;
@@ -28,6 +30,7 @@ namespace Carbon
         {
             GlobalVariable.Energy = energy;
             DispearCloud();
+            GlobalVariable.DragLock = false;
             Debug.Log($"recv:{energy}");
         }
 

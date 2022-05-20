@@ -34,6 +34,10 @@
             // {
             //     Debug.Log("当前没有触摸在UI上");
             // }
+            if (GlobalVariable.DragLock)
+            {
+                return;
+            }
             if (Input.GetMouseButtonDown(0))
             {
                 RaycastHit2D hit = Physics2D.Raycast(TargetCamera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 500, 1<<TouchLayer);

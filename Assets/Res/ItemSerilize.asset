@@ -107,6 +107,13 @@ MonoBehaviour:
       Size: {x: 1.6901658, y: 0.7068753}
   FlowerItems:
   - Type: 2
+    Price: 67
+    CoverSprite: {fileID: 21300000, guid: 09d5e7ab935d44841a76372d504ae807, type: 3}
+    ShowWidth: 2
+    Collider2DParam:
+      Offest: {x: 0.02842778, y: -0.35890308}
+      Size: {x: 1.9665502, y: 1.0781766}
+  - Type: 2
     Price: 66
     CoverSprite: {fileID: 21300000, guid: 27f8e3fb7c4338746959836fd1a7cdc4, type: 3}
     ShowWidth: 5
@@ -114,12 +121,12 @@ MonoBehaviour:
       Offest: {x: 0.1897217, y: -0.00729689}
       Size: {x: 3.1307218, y: 1.8902335}
   - Type: 2
-    Price: 67
-    CoverSprite: {fileID: 21300000, guid: 09d5e7ab935d44841a76372d504ae807, type: 3}
-    ShowWidth: 2
+    Price: 86
+    CoverSprite: {fileID: 21300000, guid: cf75ca6c73443fb48a965b9ad02f17a2, type: 3}
+    ShowWidth: 7
     Collider2DParam:
-      Offest: {x: 0.02842778, y: -0.35890308}
-      Size: {x: 1.9665502, y: 1.0781766}
+      Offest: {x: 0.1897217, y: -0.00729689}
+      Size: {x: 3.1307218, y: 1.8902335}
   FacilityItems:
   - Type: 3
     Price: 8

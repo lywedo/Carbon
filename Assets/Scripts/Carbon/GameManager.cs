@@ -133,6 +133,7 @@ namespace Carbon
                 else
                 {
                     _CurrentDrag.GetComponent<DragController>().Build();
+                    RefreshEnergyText();
                     // _DragSortOrder++;
                 }
             }
