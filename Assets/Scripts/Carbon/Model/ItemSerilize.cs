@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using OpenCover.Framework.Model;
-using Unity.VisualScripting;
+
 using UnityEngine;
 
 namespace Carbon.Model

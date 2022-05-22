@@ -3,9 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Carbon.Model;
+using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+using ZXing;
+using ZXing.QrCode;
 
 namespace Carbon
 {
@@ -37,6 +41,8 @@ namespace Carbon
         public Image ScreenShot;
         public Text EnergyValue;
         public GameObject NotEnoughEnergy;
+        public RawImage qrcode;
+        private Texture2D _encode;
 
         private void Awake()
         {
@@ -46,7 +52,7 @@ namespace Carbon
                 _cacheTileCover = ES3.Load<Dictionary<string, string>>(DateTimeHelper.GetToday());
                 // ES3.LoadInto(DateTimeHelper.GetToday(), _cacheTileCover);
             }
-
+            _encode = new Texture2D(256, 256);
             RefreshEnergyText();
         }
 
@@ -65,13 +71,13 @@ namespace Carbon
         public void GeneralCaptureOnclick()
         {
             var path = SaveRenderTexture(CaptureCamera.targetTexture);
-            _cacheTileCover.Add(_tileName, path);
+            _cacheTileCover.Add(_tileName, path.key);
             ES3.Save(DateTimeHelper.GetToday(), _cacheTileCover);
-            var loadImage = ES3.LoadImage(path);
+            var loadImage = ES3.LoadImage(path.key);
             ScreenShot.sprite = Sprite.Create(loadImage,
                 new Rect(0, 0, loadImage.width, loadImage.height), 
-                new Vector2(0.5f,0.5f)); 
-                
+                new Vector2(0.5f,0.5f));
+            StartCoroutine(IRequestPic(path.key, path.pngBuffer));
             ShowShare();
         }
         
@@ -152,7 +158,7 @@ namespace Carbon
             
             if (Input.GetKeyDown(KeyCode.C))
             {
-                _cacheTileCover.Add(_tileName, SaveRenderTexture(CaptureCamera.targetTexture));
+                _cacheTileCover.Add(_tileName, SaveRenderTexture(CaptureCamera.targetTexture).key);
                 ES3.Save(DateTimeHelper.GetToday(), _cacheTileCover);
                 BackToMap();
             }
@@ -225,18 +231,59 @@ namespace Carbon
             }
             
         }
-        
-        private string SaveRenderTexture(RenderTexture rt)
+
+        private (string key, byte[] pngBuffer) SaveRenderTexture(RenderTexture rt)
         {
             string key = $"{DateTimeHelper.GetMillisecond()}.png";
             RenderTexture.active = rt;
             Texture2D png = new Texture2D(rt.width, rt.height, TextureFormat.ARGB32, false);
             png.ReadPixels(new Rect(0, 0, rt.width, rt.height), 0, 0);
             png.Apply();
+            var pngBuffer = png.EncodeToPNG();
             ES3.SaveImage(png, key);
             Destroy(png);
             Debug.Log($"保存成功！{key}");
-            return key;
+            return (key, pngBuffer);
+        }
+
+        IEnumerator IRequestPic(string imgName, byte[] buffer)
+        {
+
+            string url = "http://80.209.226.147:8882/sys/file/v1/upload/";
+            WWWForm form = new WWWForm();
+            form.AddField("folder", "upload");
+            var encodeToPng = new Texture2D(200, 200).EncodeToPNG();
+            form.AddBinaryData("file", buffer, imgName + ".png", "image/png");
+            UnityWebRequest req = UnityWebRequest.Post(url, form);
+            yield return req.SendWebRequest();
+            Debug.Log($"res: {req.downloadHandler.text}");
+            if (req.isHttpError || req.isNetworkError)
+            {
+                Debug.Log($"res: 上传失败");
+            }
+            if (req.isDone && !req.isHttpError)
+            {
+                Debug.Log($"res: 上传成功 {req.downloadHandler.text}");
+                var res = JsonConvert.DeserializeObject<MinioRes>(req.downloadHandler.text);
+                var color32s = Encode(res.result, 256, 256);
+                _encode.SetPixels32(color32s);
+                _encode.Apply();
+                qrcode.texture = _encode;
+            }
+        }
+        
+        private static Color32[] Encode(string textForEncoding, int width, int height)
+        {
+            var writer = new BarcodeWriter
+            {
+                Format = BarcodeFormat.QR_CODE,
+                Options = new QrCodeEncodingOptions
+                {
+                    Height = height,
+                    Width = width
+                }
+            };
+            return writer.Write(textForEncoding);
         }
 
         /// <summary>
@@ -288,7 +335,7 @@ namespace Carbon
             System.Diagnostics.Process.Start(scrPathName);
         }
 
-        private async void BackToMap()
+         private async void BackToMap()
         {
             await SceneChangeHelper.PreChangeSceneAsync("Map");
             await SceneChangeHelper.ChangeSceneAsync();
