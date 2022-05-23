@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6317561673904342958}
   - component: {fileID: 4313076191848071132}
   - component: {fileID: 2644283675035238803}
+  - component: {fileID: 3323218512666682337}
   m_Layer: 3
   m_Name: Drag
   m_TagString: Untagged
@@ -103,17 +104,8 @@ MonoBehaviour:
   isInArea: 0
   isTrigger: 0
   _spriteRenderer: {fileID: 6317561673904342957}
+  Animator: {fileID: 3323218512666682337}
   Polygon: {fileID: 2644283675035238803}
-  DragItem:
-    Type: 0
-    Price: 0
-    CoverSprite: {fileID: 0}
-    ShowWidth: 0
-    Collider2DParam:
-      Offest: {x: 0, y: 0}
-      Size: {x: 1, y: 1}
-    Polygon2DParam:
-      points: []
 --- !u!50 &6317561673904342958
 Rigidbody2D:
   serializedVersion: 4
@@ -175,3 +167,23 @@ PolygonCollider2D:
       - {x: -0.5, y: -0.5}
       - {x: 0.5, y: -0.5}
       - {x: 0.5, y: 0.5}
+--- !u!95 &3323218512666682337
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6317561673904342952}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

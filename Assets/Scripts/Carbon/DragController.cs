@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using Carbon.Model;
+using UnityEditor.Animations;
 using UnityEngine;
 
 namespace Carbon
@@ -10,10 +11,12 @@ namespace Carbon
         public bool isInArea = false;
         public bool isTrigger = false;
         public SpriteRenderer _spriteRenderer;
+
+        public Animator Animator;
         // public BoxCollider2D Collider2D;
         public PolygonCollider2D Polygon;
         private bool _buildFinish = false;
-        public Item DragItem;
+        private Item DragItem;
 
         // private void Awake()
         // {
@@ -28,9 +31,10 @@ namespace Carbon
         //     }
         // }
 
-        public void SetSprite(Sprite sprite, Vector2 size, PolygonCollider2DParam polygon2dparam)
+        public void SetSprite(Item item, Vector2 size, PolygonCollider2DParam polygon2dparam)
         {
-            _spriteRenderer.sprite = sprite;
+            DragItem = item;
+            _spriteRenderer.sprite = item.CoverSprite;
             _spriteRenderer.size = size;
             // Collider2D.size = collider2DParam.Size;
             // Collider2D.offset = collider2DParam.Offest;
@@ -47,6 +51,10 @@ namespace Carbon
         {
             _buildFinish = true;
             GlobalVariable.Energy -= DragItem.Price;
+            if (DragItem.Animator != null)
+            {
+                Animator.runtimeAnimatorController = DragItem.Animator;
+            }
             // StopAllCoroutines();
         }
 

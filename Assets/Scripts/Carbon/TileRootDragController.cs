@@ -1,4 +1,6 @@
-﻿namespace Carbon
+﻿using System;
+
+namespace Carbon
 {
     using System.Collections;
     using System.Collections.Generic;
@@ -17,11 +19,23 @@
         private Vector3 _vec3Offset; // 偏移 
         public Camera TargetCamera;
         public int TouchLayer = 0;
+        private Vector3 InitVector3;
 
         void Awake()
         {
             _trans = transform;
             // Debug.Log("当前触摸在UI上");
+        }
+
+        private void Start()
+        {
+            InitVector3 = _trans.position;
+        }
+
+        public void ResetPos()
+        {
+            Debug.Log($"ResetPos: {InitVector3}");
+            _trans.position = InitVector3;
         }
 
         void Update()

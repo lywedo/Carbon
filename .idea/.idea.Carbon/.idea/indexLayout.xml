@@ -7,7 +7,6 @@
       <Path>$USER_HOME$/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.searcher@4.9.1</Path>
     </attachedFolders>
     <explicitIncludes>
-      <Path>Assets</Path>
       <Path>Library/PackageCache/com.unity.2d.sprite@1.0.0</Path>
       <Path>Library/PackageCache/com.unity.2d.tilemap.extras@2.2.2</Path>
       <Path>Library/PackageCache/com.unity.2d.tilemap@1.0.0</Path>
@@ -72,11 +71,9 @@
     <explicitExcludes>
       <Path>.git</Path>
       <Path>.idea</Path>
-      <Path>Library</Path>
       <Path>Logs</Path>
       <Path>Temp</Path>
       <Path>UserSettings</Path>
-      <Path>build</Path>
       <Path>obj</Path>
     </explicitExcludes>
   </component>

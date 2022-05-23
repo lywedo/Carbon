@@ -10,6 +10,7 @@ using UnityEngine.Rendering;
 using UnityEngine.UI;
 using ZXing;
 using ZXing.QrCode;
+using Random = System.Random;
 
 namespace Carbon
 {
@@ -42,10 +43,17 @@ namespace Carbon
         public Text EnergyValue;
         public GameObject NotEnoughEnergy;
         public RawImage qrcode;
+        public Text Temperture;
+        public Text Date;
+        public Text ID;
+        public TileRootDragController TileRootDragController;
         private Texture2D _encode;
+        private long UUID = 1;
+        private float InitSliderValue;
 
         private void Awake()
         {
+            InitSliderValue = Slider.value;
             _tileName = (string) SceneChangeHelper.GetParam(ParamKey.MapClickTile);
             if (ES3.KeyExists(DateTimeHelper.GetToday()))
             {
@@ -53,7 +61,35 @@ namespace Carbon
                 // ES3.LoadInto(DateTimeHelper.GetToday(), _cacheTileCover);
             }
             _encode = new Texture2D(256, 256);
+            if (ES3.KeyExists("UUID"))
+            {
+                UUID = ES3.Load<long>("UUID");
+                UUID++;
+                ES3.Save("UUID", UUID);
+            }
+            
+            InitUI();
+        }
+
+        private String FormatUUID(long uuid)
+        {
+            if (uuid > 100000)
+            {
+                return uuid.ToString();
+            }
+            else
+            {
+                return uuid.ToString().PadLeft(6, '0');
+            }
+        }
+        
+
+        private void InitUI()
+        {
             RefreshEnergyText();
+            Temperture.text = new Random().Next(10, 30).ToString();
+            Date.text = DateTimeHelper.GetToday().Replace("-", "/");
+            ID.text = FormatUUID(UUID);
         }
 
         private void ShowShare()
@@ -70,6 +106,15 @@ namespace Carbon
 
         public void GeneralCaptureOnclick()
         {
+            Slider.value = InitSliderValue;
+            TileRootDragController.ResetPos();
+            Debug.Log($"ResetPos: {InitSliderValue}");
+            StartCoroutine(GeneralCapture());
+        }
+
+        IEnumerator GeneralCapture()
+        {
+            yield return new WaitForEndOfFrame();
             var path = SaveRenderTexture(CaptureCamera.targetTexture);
             _cacheTileCover.Add(_tileName, path.key);
             ES3.Save(DateTimeHelper.GetToday(), _cacheTileCover);
@@ -98,8 +143,8 @@ namespace Carbon
             var scale = item.CoverSprite.bounds.size.y / item.CoverSprite.bounds.size.x;
             var width = item.ShowWidth;
             var height = width * scale;
-            _CurrentDrag.GetComponent<DragController>().DragItem = item;
-            _CurrentDrag.GetComponent<DragController>().SetSprite(item.CoverSprite, new Vector2(width, height), item.Polygon2DParam);
+            // _CurrentDrag.GetComponent<DragController>().DragItem = item;
+            _CurrentDrag.GetComponent<DragController>().SetSprite(item, new Vector2(width, height), item.Polygon2DParam);
             // _CurrentDrag.transform.localScale = Vector3.one;
             _CurrentDrag.transform.position = pos;
             // _CurrentDrag.GetComponent<SortingGroup>().sortingOrder = _DragSortOrder;
@@ -167,6 +212,12 @@ namespace Carbon
             {
                 GlobalVariable.Energy = 9999;
                 RefreshEnergyText();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                Slider.value = InitSliderValue;
+                TileRootDragController.ResetPos();
             }
         }
 
