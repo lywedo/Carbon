@@ -17,11 +17,9 @@ namespace Carbon
         public PolygonCollider2D Polygon;
         private bool _buildFinish = false;
         private Item DragItem;
+        private bool _recyclerMode = false;
+        private GameManager _manager;
 
-        // private void Awake()
-        // {
-        //     _spriteRenderer = GetComponent<SpriteRenderer>();
-        // }
 
         // IEnumerator CheckTrigger()
         // {
@@ -30,6 +28,48 @@ namespace Carbon
         //         
         //     }
         // }
+
+        public void SetGameManagerAccess(GameManager manager)
+        {
+            _manager = manager;
+            _manager.AddDrags(this);
+        }
+
+        private void OnDestroy()
+        {
+            _manager.RemoveDrags(this);
+        }
+
+        public void SetRecycleMode(bool mode)
+        {
+            _recyclerMode = mode;
+            if (_recyclerMode)
+            {
+                Polygon.points = DragItem.Click2DParam.points;
+            }
+            else
+            {
+                Polygon.points = DragItem.Polygon2DParam.points;
+            }
+            
+        }
+
+        // private void ResetCollider()
+        // {
+        //     boxCollider.enabled = true;
+        // }
+
+        public void Recycle()
+        {
+            Debug.Log("recycle");
+            if (_recyclerMode)
+            {
+                GlobalVariable.Energy += DragItem.Price;
+                _manager.RefreshEnergyText();
+                Destroy(gameObject);
+            }
+            
+        }
 
         public void SetSprite(Item item, Vector2 size, PolygonCollider2DParam polygon2dparam)
         {

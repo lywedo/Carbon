@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Carbon.Model;
+using DG.Tweening;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -43,6 +44,7 @@ namespace Carbon
         public Text EnergyValue;
         public GameObject NotEnoughEnergy;
         public RawImage qrcode;
+        public Text QrcodeText;
         public Text Temperture;
         public Text Date;
         public Text ID;
@@ -50,9 +52,18 @@ namespace Carbon
         private Texture2D _encode;
         private long UUID = 1;
         private float InitSliderValue;
+        private List<DragController> _CurrentDrags = new List<DragController>();
+        private bool _recyclerMode = false;
+        public GameObject Recycler_Notice;
+        public Camera UpperUICamera;
+
+        public delegate void RecycleModeChangeDelegate(bool mode);
+
+        public RecycleModeChangeDelegate RecycleModeChangeListener;
 
         private void Awake()
         {
+            GlobalVariable.DragLock = true;
             InitSliderValue = Slider.value;
             _tileName = (string) SceneChangeHelper.GetParam(ParamKey.MapClickTile);
             if (ES3.KeyExists(DateTimeHelper.GetToday()))
@@ -65,6 +76,10 @@ namespace Carbon
             {
                 UUID = ES3.Load<long>("UUID");
                 UUID++;
+                ES3.Save("UUID", UUID);
+            }
+            else
+            {
                 ES3.Save("UUID", UUID);
             }
             
@@ -97,6 +112,7 @@ namespace Carbon
             TileCamera.gameObject.SetActive(false);
             NormalCanvasRoot.SetActive(false);
             ShareCanvasRoot.SetActive(true);
+            UpperUICamera.gameObject.SetActive(false);
         }
 
         public void HideNotice()
@@ -151,7 +167,7 @@ namespace Carbon
             _MovingDrag = true;
         }
 
-        private void RefreshEnergyText()
+        public void RefreshEnergyText()
         {
             EnergyValue.text = GlobalVariable.Energy.ToString();
         }
@@ -183,7 +199,10 @@ namespace Carbon
                 }
                 else
                 {
-                    _CurrentDrag.GetComponent<DragController>().Build();
+                    var dragController = _CurrentDrag.GetComponent<DragController>();
+                    dragController.Build();
+                    dragController.SetGameManagerAccess(this);
+                    // _CurrentDrags.Add(dragController);
                     RefreshEnergyText();
                     // _DragSortOrder++;
                 }
@@ -230,8 +249,33 @@ namespace Carbon
             _CurrentMenu = String.Empty;
         }
 
+        public void AddDrags(DragController dragController)
+        {
+            _CurrentDrags.Add(dragController);
+        }
+
+        public void RemoveDrags(DragController dragController)
+        {
+            _CurrentDrags.Remove(dragController);
+        }
+
+        public void ClickRecycle()
+        {
+            _recyclerMode = !_recyclerMode;
+            GlobalVariable.RecycleMode = _recyclerMode;
+            foreach (var dragController in _CurrentDrags)
+            {
+                dragController.SetRecycleMode(_recyclerMode);
+            }
+            Recycler_Notice.SetActive(_recyclerMode);
+        }
+
         public void ClickMenu(GameObject menu)
         {
+            if (GlobalVariable.RecycleMode)
+            {
+                return;
+            }
             if (null != _CurrentBunble)
             {
                 _CurrentBunble.GetComponent<BubbleController>().BubbleLongPress -= BubbleItemLongClick;
@@ -311,6 +355,7 @@ namespace Carbon
             if (req.isHttpError || req.isNetworkError)
             {
                 Debug.Log($"res: 上传失败");
+                QrcodeText.text = "网络异常";
             }
             if (req.isDone && !req.isHttpError)
             {
@@ -320,6 +365,7 @@ namespace Carbon
                 _encode.SetPixels32(color32s);
                 _encode.Apply();
                 qrcode.texture = _encode;
+                qrcode.transform.DOScale(1, 0.5f);
             }
         }
         
@@ -386,7 +432,7 @@ namespace Carbon
             System.Diagnostics.Process.Start(scrPathName);
         }
 
-         private async void BackToMap()
+         public async void BackToMap()
         {
             await SceneChangeHelper.PreChangeSceneAsync("Map");
             await SceneChangeHelper.ChangeSceneAsync();

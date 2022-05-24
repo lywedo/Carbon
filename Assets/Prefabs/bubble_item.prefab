@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 418835012523874671}
   - component: {fileID: 418835012523874669}
   - component: {fileID: 418835012523874670}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: price
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 418835013284346174}
   - component: {fileID: 670013752597867846}
   - component: {fileID: 660852120057102707}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: bubble_item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,6 +176,12 @@ MonoBehaviour:
     Type: 0
     Price: 0
     CoverSprite: {fileID: 0}
+    ShowWidth: 0
+    Polygon2DParam:
+      points: []
+    Click2DParam:
+      points: []
+    Animator: {fileID: 0}
 --- !u!114 &660852120057102707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,10 +226,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
-  m_onLongPress:
+  my_onLongPress:
     m_PersistentCalls:
       m_Calls: []
-  m_onDoubleClick:
+  my_onDoubleClick:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &418835014002844926
@@ -237,7 +243,7 @@ GameObject:
   - component: {fileID: 418835014002844925}
   - component: {fileID: 418835014002844915}
   - component: {fileID: 418835014002844924}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}

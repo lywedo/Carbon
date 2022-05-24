@@ -61,6 +61,11 @@ namespace Server
             }
         }
 
+        private void OnDestroy()
+        {
+            StopServer();
+        }
+
         public void InitializeServer()
         {
             if (ServerIsUp) return;

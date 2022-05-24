@@ -32,6 +32,7 @@ namespace Carbon.Model
         public float ShowWidth;
         // public BoxCollider2DParam Collider2DParam;
         public PolygonCollider2DParam Polygon2DParam;
+        public PolygonCollider2DParam Click2DParam;
         public AnimatorController Animator;
     }
 

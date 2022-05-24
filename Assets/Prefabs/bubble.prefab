@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3972946974031256348}
   - component: {fileID: 3788803839520637716}
   - component: {fileID: 6800294797566545064}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: bubble
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 3972946974140677000}
   - component: {fileID: 3972946974140677001}
   - component: {fileID: 3972946974140677046}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -215,8 +215,8 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 174, y: 206}
-  m_Spacing: {x: 44.33, y: 20}
+  m_CellSize: {x: 170, y: 200}
+  m_Spacing: {x: 40, y: 20}
   m_Constraint: 1
   m_ConstraintCount: 3
 --- !u!114 &3972946974140677001
