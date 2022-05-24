@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using Carbon.Model;
-using UnityEditor.Animations;
 using UnityEngine;
 
 namespace Carbon
@@ -19,6 +18,7 @@ namespace Carbon
         private Item DragItem;
         private bool _recyclerMode = false;
         private GameManager _manager;
+        AnimatorOverrideController overrideController;
 
 
         // IEnumerator CheckTrigger()
@@ -91,9 +91,13 @@ namespace Carbon
         {
             _buildFinish = true;
             GlobalVariable.Energy -= DragItem.Price;
-            if (DragItem.Animator != null)
+            if (DragItem.AnimattionClip != null)
             {
-                Animator.runtimeAnimatorController = DragItem.Animator;
+                AnimatorOverrideController overrideController = new AnimatorOverrideController();
+                overrideController.runtimeAnimatorController = Animator.runtimeAnimatorController;
+                overrideController["1"] = DragItem.AnimattionClip;
+                Animator.runtimeAnimatorController = overrideController;
+                Debug.Log($"build:{DragItem.AnimattionClip}");
             }
             // StopAllCoroutines();
         }

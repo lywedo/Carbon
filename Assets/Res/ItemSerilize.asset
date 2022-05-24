@@ -32,7 +32,7 @@ MonoBehaviour:
       - {x: -1.5525837, y: 0.9289832}
       - {x: 0.42740062, y: -0.041086435}
       - {x: 1.5101489, y: 0.68166566}
-    Animator: {fileID: 0}
+    AnimattionClip: {fileID: 0}
   - Type: 0
     Price: 235
     CoverSprite: {fileID: 21300000, guid: c82ca5839a863bf44bae1c6ca612c5dc, type: 3}
@@ -52,7 +52,7 @@ MonoBehaviour:
       - {x: 0.37539846, y: 0.023264647}
       - {x: 1.5478752, y: 0.6846702}
       - {x: 1.4860655, y: 3.1048036}
-    Animator: {fileID: 0}
+    AnimattionClip: {fileID: 0}
   - Type: 0
     Price: 2353
     CoverSprite: {fileID: 21300000, guid: 24261440961e2ae499087ec52f4d20c5, type: 3}
@@ -72,7 +72,7 @@ MonoBehaviour:
       - {x: -0.113304526, y: -0.011885166}
       - {x: 1.5513624, y: 0.9150485}
       - {x: 1.5054837, y: 2.0793977}
-    Animator: {fileID: 0}
+    AnimattionClip: {fileID: 0}
   - Type: 0
     Price: 223
     CoverSprite: {fileID: 21300000, guid: e0e67d1bef5e63f4a871086b19fd81d7, type: 3}
@@ -92,7 +92,7 @@ MonoBehaviour:
       - {x: 0.11698629, y: 0.010125995}
       - {x: 1.4866903, y: 0.67515373}
       - {x: 1.4503601, y: 1.5947261}
-    Animator: {fileID: 0}
+    AnimattionClip: {fileID: 0}
   - Type: 0
     Price: 454
     CoverSprite: {fileID: 21300000, guid: 127fe3bfd953a904c9b6d1e1a164ba69, type: 3}
@@ -112,7 +112,7 @@ MonoBehaviour:
       - {x: -1.5756844, y: 0.9880141}
       - {x: 0.2081396, y: -0.06334841}
       - {x: 1.5054836, y: 0.71499085}
-    Animator: {fileID: 0}
+    AnimattionClip: {fileID: 0}
   - Type: 0
     Price: 565
     CoverSprite: {fileID: 21300000, guid: d49147edc929eca41a605779b9c43a04, type: 3}
@@ -132,7 +132,7 @@ MonoBehaviour:
       - {x: -0.57349694, y: 0.012465954}
       - {x: 1.4729527, y: 1.194027}
       - {x: 1.4672112, y: 3.1335132}
-    Animator: {fileID: 0}
+    AnimattionClip: {fileID: 0}
   - Type: 0
     Price: 456
     CoverSprite: {fileID: 21300000, guid: 666a8b4a9064c4846823425bb539e3b2, type: 3}
@@ -152,7 +152,7 @@ MonoBehaviour:
       - {x: -0.74564844, y: -0.050293088}
       - {x: 1.5466275, y: 1.336219}
       - {x: 1.5122209, y: 2.119277}
-    Animator: {fileID: 0}
+    AnimattionClip: {fileID: 0}
   - Type: 0
     Price: 322
     CoverSprite: {fileID: 21300000, guid: af254f6703a29704aad7b6ce29b7c3b0, type: 3}
@@ -171,7 +171,7 @@ MonoBehaviour:
       - {x: -1.5186018, y: 1.0672443}
       - {x: 0.13616082, y: -0.03329587}
       - {x: 1.5780002, y: 0.7790737}
-    Animator: {fileID: 0}
+    AnimattionClip: {fileID: 0}
   - Type: 0
     Price: 234
     CoverSprite: {fileID: 21300000, guid: 1358d0a549ecdf84cb25ae42b7cf8f61, type: 3}
@@ -191,7 +191,7 @@ MonoBehaviour:
       - {x: -1.5468447, y: 0.78341746}
       - {x: -0.16086212, y: -0.0013666153}
       - {x: 1.241509, y: 0.7403798}
-    Animator: {fileID: 0}
+    AnimattionClip: {fileID: 0}
   TreeItems:
   - Type: 1
     Price: 34
@@ -209,7 +209,7 @@ MonoBehaviour:
       - {x: -1.4253318, y: 0.040123463}
       - {x: 0.012238964, y: 0.04222107}
       - {x: 1.5388641, y: 4.3670754}
-    Animator: {fileID: 0}
+    AnimattionClip: {fileID: 0}
   - Type: 1
     Price: 22
     CoverSprite: {fileID: 21300000, guid: 55743fbf17d946d439d74a6efc1b0317, type: 3}
@@ -228,7 +228,7 @@ MonoBehaviour:
       - {x: 0.8179143, y: 0.027077556}
       - {x: 1.5835346, y: 1.124966}
       - {x: 1.7697444, y: 3.4347744}
-    Animator: {fileID: 9100000, guid: eb674dbe9328caa439d8dbcf42de33b9, type: 2}
+    AnimattionClip: {fileID: 7400000, guid: f4e97e2fa1675ae459b26047ecfe04d4, type: 2}
   - Type: 1
     Price: 455
     CoverSprite: {fileID: 21300000, guid: 08e8a143a5ce966478437ca10adf1c54, type: 3}
@@ -247,7 +247,7 @@ MonoBehaviour:
       - {x: -0.17834985, y: -0.24477935}
       - {x: 1.5153775, y: 0.40955496}
       - {x: 1.5703857, y: 1.2887409}
-    Animator: {fileID: 0}
+    AnimattionClip: {fileID: 0}
   - Type: 1
     Price: 566
     CoverSprite: {fileID: 21300000, guid: 6cb6d949e3926c943b156761e2134cd2, type: 3}
@@ -265,7 +265,7 @@ MonoBehaviour:
       - {x: -1.5156897, y: 0.04633963}
       - {x: 1.5111839, y: 0.018991113}
       - {x: 1.1092734, y: 1.2983766}
-    Animator: {fileID: 0}
+    AnimattionClip: {fileID: 0}
   - Type: 1
     Price: 566
     CoverSprite: {fileID: 21300000, guid: 414e9dbf87d4fda4dbe6c23f5f469af1, type: 3}
@@ -283,7 +283,7 @@ MonoBehaviour:
       - {x: -1.2820528, y: -1.6358473}
       - {x: 1.1840922, y: -1.7566508}
       - {x: 1.6363606, y: 0.5680721}
-    Animator: {fileID: 9100000, guid: 91a2558d4f2906045b798472128f554c, type: 2}
+    AnimattionClip: {fileID: 7400000, guid: 42e6412ecd21aca4e897bbf69ba50d37, type: 2}
   FlowerItems:
   - Type: 2
     Price: 67
@@ -301,7 +301,7 @@ MonoBehaviour:
       - {x: -0.99690443, y: 0.5869839}
       - {x: -0.01410375, y: 0.051424563}
       - {x: 0.99914473, y: 0.6105283}
-    Animator: {fileID: 9100000, guid: 924b84157356799449ad3ba19cf2339e, type: 2}
+    AnimattionClip: {fileID: 7400000, guid: f6fe4846b9b6f6446bc2141b746299e5, type: 2}
   - Type: 2
     Price: 66
     CoverSprite: {fileID: 21300000, guid: 27f8e3fb7c4338746959836fd1a7cdc4, type: 3}
@@ -334,7 +334,7 @@ MonoBehaviour:
       - {x: 1.6768425, y: 0.66161853}
       - {x: 2.682891, y: 0.9824994}
       - {x: 1.6212751, y: 1.3201334}
-    Animator: {fileID: 0}
+    AnimattionClip: {fileID: 0}
   - Type: 2
     Price: 86
     CoverSprite: {fileID: 21300000, guid: cf75ca6c73443fb48a965b9ad02f17a2, type: 3}
@@ -355,7 +355,7 @@ MonoBehaviour:
       - {x: 1.488485, y: -0.23876917}
       - {x: 3.5926416, y: 0.8793651}
       - {x: -1.4880179, y: 3.1343305}
-    Animator: {fileID: 0}
+    AnimattionClip: {fileID: 0}
   FacilityItems:
   - Type: 3
     Price: 8
@@ -373,7 +373,7 @@ MonoBehaviour:
       - {x: -0.8854683, y: 0.69505996}
       - {x: 0.04464461, y: 0.10214102}
       - {x: 1.01384, y: 0.6567147}
-    Animator: {fileID: 0}
+    AnimattionClip: {fileID: 0}
   - Type: 3
     Price: 99
     CoverSprite: {fileID: 21300000, guid: 98bace1481541754fb903a86e1d63b8d, type: 3}
@@ -390,7 +390,7 @@ MonoBehaviour:
       - {x: -0.90974635, y: 0.6358393}
       - {x: -0.025978629, y: 0.065724306}
       - {x: 0.8832587, y: 0.6324371}
-    Animator: {fileID: 0}
+    AnimattionClip: {fileID: 0}
   - Type: 3
     Price: 888
     CoverSprite: {fileID: 21300000, guid: 82721abb333bc5a4dbdf179e86ea03e1, type: 3}
@@ -407,4 +407,4 @@ MonoBehaviour:
       - {x: -0.9325509, y: 0.69579643}
       - {x: 0.009701163, y: 0.11501604}
       - {x: 0.97815996, y: 0.5974932}
-    Animator: {fileID: 0}
+    AnimattionClip: {fileID: 0}
