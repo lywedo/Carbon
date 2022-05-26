@@ -56,6 +56,9 @@ namespace Carbon
         private bool _recyclerMode = false;
         public GameObject Recycler_Notice;
         public Camera UpperUICamera;
+        //声明
+        private Sequence mScoreSequence;
+
 
         public delegate void RecycleModeChangeDelegate(bool mode);
 
@@ -84,6 +87,15 @@ namespace Carbon
             }
             
             InitUI();
+            //函数内初始化
+            mScoreSequence = DOTween.Sequence();
+    //函数内设置属性
+            mScoreSequence.SetAutoKill(false);
+        }
+
+        private void Start()
+        {
+            CloudController.GetInstance().Disspear();
         }
 
         private String FormatUUID(long uuid)
@@ -169,7 +181,15 @@ namespace Carbon
 
         public void RefreshEnergyText()
         {
-            EnergyValue.text = GlobalVariable.Energy.ToString();
+            mScoreSequence.Append(DOTween.To(delegate (float value) {
+                //向下取整
+                var temp = Math.Floor(value);
+                //向Text组件赋值
+                EnergyValue.text = temp + "";
+            }, Convert.ToSingle(EnergyValue.text), GlobalVariable.Energy, 0.4f));
+//将更新后的值记录下来, 用于下一次滚动动画
+            // mOldScore = newScore;
+            // EnergyValue.text = GlobalVariable.Energy.ToString();
         }
 
 
@@ -435,7 +455,11 @@ namespace Carbon
          public async void BackToMap()
         {
             await SceneChangeHelper.PreChangeSceneAsync("Map");
-            await SceneChangeHelper.ChangeSceneAsync();
+            CloudController.GetInstance().Assemble(() =>
+            {
+                SceneChangeHelper.ChangeSceneAsync().Coroutine();
+            });
+            
         }
     }
 }

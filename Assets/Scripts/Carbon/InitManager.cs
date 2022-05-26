@@ -17,12 +17,17 @@ namespace Carbon
         private void Start()
         {
             BtnText.text = GetLocalIp();
+            SceneChangeHelper.PreChangeSceneAsync("Map").Coroutine();
         }
 
         public async void JumpMap()
         {
-            await SceneChangeHelper.PreChangeSceneAsync("Map");
-            SceneChangeHelper.ChangeSceneAsync().Coroutine();
+            CloudController.GetInstance().Assemble(() =>
+            {
+                SceneChangeHelper.ChangeSceneAsync().Coroutine();
+            });
+            // await SceneChangeHelper.PreChangeSceneAsync("Map");
+            
         }
         IEnumerator IRequestPic(string imgName)
         {

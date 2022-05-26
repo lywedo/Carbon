@@ -9,7 +9,7 @@ namespace Carbon
 {
     public class MapManager : MonoBehaviour
     {
-        public GameObject CloudRoot;
+        // public GameObject CloudRoot;
         public Slider Slider;
         // public GameObject TileRoot;
         public Camera TileCamera;
@@ -47,6 +47,11 @@ namespace Carbon
                 DispearCloud();
             }
 
+            if (Input.GetKeyDown(KeyCode.B))
+            {
+                CloudController.GetInstance().Assemble();
+            }
+
             if (Math.Abs(_cacheSliderValue - Slider.value) > 0.1)
             {
                 
@@ -58,18 +63,19 @@ namespace Carbon
 
         private void DispearCloud()
         {
-            foreach (var sprite in CloudRoot.GetComponentsInChildren<SpriteRenderer>())
-            {
-                if (sprite.transform.localPosition.x < 0)
-                {
-                    sprite.transform.DOLocalMoveX(-16, 2);
-                }
-                else
-                {
-                    sprite.transform.DOLocalMoveX(16, 2);
-                }
-                sprite.DOFade(0, 2);
-            }
+            // foreach (var sprite in CloudRoot.GetComponentsInChildren<SpriteRenderer>())
+            // {
+            //     if (sprite.transform.localPosition.x < 0)
+            //     {
+            //         sprite.transform.DOLocalMoveX(-16, 2);
+            //     }
+            //     else
+            //     {
+            //         sprite.transform.DOLocalMoveX(16, 2);
+            //     }
+            //     sprite.DOFade(0, 2);
+            // }
+            CloudController.GetInstance().Disspear();
 
             // yield return 0;
         }

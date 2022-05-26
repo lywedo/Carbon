@@ -52,7 +52,12 @@ namespace Carbon
             {
                 SceneChangeHelper.AddParam(ParamKey.MapClickTile, name);
                 await SceneChangeHelper.PreChangeSceneAsync("Game");
-                await SceneChangeHelper.ChangeSceneAsync();
+                CloudController.GetInstance().Assemble(() =>
+                {
+                    SceneChangeHelper.ChangeSceneAsync().Coroutine();
+                });
+                
+                
             }
         }
     }
