@@ -16,6 +16,8 @@ namespace Carbon
 
         private float _cacheSliderValue = 0;
         private UnityHttpServer _server;
+
+        public Camera CloudCamera;
         // public TileRootDragController TileRootDragController;
 
         private void Start()

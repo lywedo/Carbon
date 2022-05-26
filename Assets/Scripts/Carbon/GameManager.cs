@@ -56,7 +56,7 @@ namespace Carbon
         private bool _recyclerMode = false;
         public GameObject Recycler_Notice;
         public Camera UpperUICamera;
-        //声明
+        public Camera CloudCamera;
         private Sequence mScoreSequence;
 
 
@@ -96,6 +96,7 @@ namespace Carbon
         private void Start()
         {
             CloudController.GetInstance().Disspear();
+            CloudController.GetInstance().ShowTranslucentCloud(CloudCamera);
         }
 
         private String FormatUUID(long uuid)
@@ -134,6 +135,11 @@ namespace Carbon
 
         public void GeneralCaptureOnclick()
         {
+            if (GlobalVariable.RecycleMode)
+            {
+                return;
+            }
+            CloudController.GetInstance().HideTranslucentCloud();
             Slider.value = InitSliderValue;
             TileRootDragController.ResetPos();
             Debug.Log($"ResetPos: {InitSliderValue}");

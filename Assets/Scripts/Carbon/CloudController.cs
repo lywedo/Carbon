@@ -5,6 +5,7 @@ using DG.Tweening;
 using ET;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = System.Random;
 
 namespace Carbon
 {
@@ -14,7 +15,13 @@ namespace Carbon
         public GameObject SolidCloud;
         private Image[] _solidClouds;
         private Dictionary<Image, float> _initCloudPos = new Dictionary<Image, float>();
+        public Canvas TranslucentCanvas;
 
+        public Image[] _translucentClouds;
+        
+        // public Camera cloudCamera;
+        private Random _random;
+        
         public static CloudController GetInstance()
         {
             return Instance;
@@ -25,6 +32,8 @@ namespace Carbon
             if (Instance != null) return;
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            _random = new Random();
+            // ShowTranlucentCloud(cloudCamera);
         }
         
         private void Start()
@@ -34,7 +43,29 @@ namespace Carbon
             {
                 _initCloudPos.Add(cloud, cloud.transform.localPosition.x);
             }
+            _translucentClouds = TranslucentCanvas.GetComponentsInChildren<Image>();
             Disspear();
+        }
+
+        public void ShowTranslucentCloud(Camera cloudCamera)
+        {
+            TranslucentCanvas.renderMode = RenderMode.ScreenSpaceCamera;
+            TranslucentCanvas.worldCamera = cloudCamera;
+
+            foreach (var image in _translucentClouds)
+            {
+                image.DOFade(0.8f, 3);
+
+                image.transform.DOLocalMoveX(image.transform.localPosition.x + _random.Next(-200, 200), 1.5f).SetLoops(-1, LoopType.Yoyo);
+            }
+        }
+
+        public void HideTranslucentCloud()
+        {
+            foreach (var cloud in _translucentClouds)
+            {
+                cloud.DOFade(0, 3);
+            }
         }
 
         public void Disspear()
@@ -43,11 +74,11 @@ namespace Carbon
             {
                 if (cloud.transform.localPosition.x < 0)
                 {
-                    cloud.transform.DOLocalMoveX(-Screen.width / 2 - 400, 2);
+                    cloud.transform.DOLocalMoveX(-Screen.width / 2 - 500, 2);
                 }
                 else
                 {
-                    cloud.transform.DOLocalMoveX(Screen.width / 2 + 400, 2);
+                    cloud.transform.DOLocalMoveX(Screen.width / 2 + 500, 2);
                 }
             }
         }
