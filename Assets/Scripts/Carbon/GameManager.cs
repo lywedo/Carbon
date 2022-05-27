@@ -59,6 +59,7 @@ namespace Carbon
         public Camera UpperUICamera;
         public Camera CloudCamera;
         private Sequence mScoreSequence;
+        public Text OverlapNotice;
 
 
         public delegate void RecycleModeChangeDelegate(bool mode);
@@ -92,6 +93,18 @@ namespace Carbon
             mScoreSequence = DOTween.Sequence();
     //函数内设置属性
             mScoreSequence.SetAutoKill(false);
+        }
+
+        public void ShowOverlapNotice(bool show)
+        {
+            if (show)
+            {
+                OverlapNotice.transform.localScale = Vector3.one;
+            }
+            else
+            {
+                OverlapNotice.transform.localScale = Vector3.zero;
+            }
         }
 
         private void Start()
@@ -175,6 +188,7 @@ namespace Carbon
             Destroy(_CurrentBunble);
             ModifyMenu();
             _CurrentDrag = Instantiate(DragGO, Tile.transform);
+            _CurrentDrag.GetComponent<DragController>().SetGameManagerAccess(this);
             var scale = item.CoverSprite.bounds.size.y / item.CoverSprite.bounds.size.x;
             var width = item.ShowWidth;
             var height = width * scale;
@@ -228,7 +242,7 @@ namespace Carbon
                 {
                     var dragController = _CurrentDrag.GetComponent<DragController>();
                     dragController.Build();
-                    dragController.SetGameManagerAccess(this);
+                    // dragController.SetGameManagerAccess(this);
                     // _CurrentDrags.Add(dragController);
                     RefreshEnergyText();
                     // _DragSortOrder++;

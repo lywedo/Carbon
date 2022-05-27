@@ -14,7 +14,12 @@ namespace Carbon
 
         private void Start()
         {
-            GetComponent<XButton>().OnLongPress.AddListener(() =>
+            // GetComponent<XButton>().OnLongPress.AddListener(() =>
+            // {
+            //     OnBubbleItemLongClick?.Invoke(Item, GetUIToWordPos(gameObject));
+            // });
+            
+            GetComponent<XButton>().OnPointDown.AddListener(() =>
             {
                 OnBubbleItemLongClick?.Invoke(Item, GetUIToWordPos(gameObject));
             });

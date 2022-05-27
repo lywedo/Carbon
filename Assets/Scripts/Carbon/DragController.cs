@@ -118,10 +118,12 @@ namespace Carbon
         {
             if (CanBuild())
             {
+                _manager.ShowOverlapNotice(false);
                 _spriteRenderer.color = Color.white;
             }
             else
             {
+                _manager.ShowOverlapNotice(true);
                 _spriteRenderer.color = Color.gray;
             }
             

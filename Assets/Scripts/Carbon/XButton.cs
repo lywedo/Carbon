@@ -18,6 +18,14 @@ namespace Carbon
             my_onLongPress = new ButtonClickedEvent();
         }
 
+        public ButtonClickedEvent my_OnPointDown;
+
+        public ButtonClickedEvent OnPointDown
+        {
+            get { return my_OnPointDown; }
+            set { my_OnPointDown = value; }
+        }
+
         // 长按
         public ButtonClickedEvent my_onLongPress;
 
@@ -76,6 +84,7 @@ namespace Carbon
             my_curPointDownTime = Time.time;
             my_isStartPress = true;
             my_longPressTrigger = false;
+            OnPointDown?.Invoke();
         }
 
         public override void OnPointerUp(PointerEventData eventData)

@@ -181,7 +181,8 @@ MonoBehaviour:
       points: []
     Click2DParam:
       points: []
-    Animator: {fileID: 0}
+    BuildSprite: {fileID: 0}
+    AnimattionClip: {fileID: 0}
 --- !u!114 &660852120057102707
 MonoBehaviour:
   m_ObjectHideFlags: 0
