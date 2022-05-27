@@ -74,7 +74,15 @@ namespace Carbon
         public void SetSprite(Item item, Vector2 size, PolygonCollider2DParam polygon2dparam)
         {
             DragItem = item;
-            _spriteRenderer.sprite = item.CoverSprite;
+            if (item.BuildSprite != null)
+            {
+                _spriteRenderer.sprite = item.BuildSprite;
+            }
+            else
+            {
+                _spriteRenderer.sprite = item.CoverSprite;
+            }
+            
             _spriteRenderer.size = size;
             // Collider2D.size = collider2DParam.Size;
             // Collider2D.offset = collider2DParam.Offest;
@@ -99,6 +107,10 @@ namespace Carbon
                 Animator.runtimeAnimatorController = overrideController;
                 Debug.Log($"build:{DragItem.AnimattionClip}");
             }
+            // else if (DragItem.BuildSprite != null)
+            // {
+            //     _spriteRenderer.sprite = DragItem.BuildSprite;
+            // }
             // StopAllCoroutines();
         }
 

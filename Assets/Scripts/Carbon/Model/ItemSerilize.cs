@@ -9,7 +9,8 @@ namespace Carbon.Model
         Building,
         Tree,
         Flower,
-        Facility
+        Facility,
+        Road
     }
 
     [CreateAssetMenu(fileName = "ItemSerilize", menuName = "CreateItemSerilize", order = 0)]
@@ -19,7 +20,7 @@ namespace Carbon.Model
         public List<Item> TreeItems = new List<Item>();
         public List<Item> FlowerItems = new List<Item>();
         public List<Item> FacilityItems = new List<Item>();
-        
+        public List<Item> RoadItems = new List<Item>();
     }
     
     [Serializable]
@@ -32,6 +33,7 @@ namespace Carbon.Model
         // public BoxCollider2DParam Collider2DParam;
         public PolygonCollider2DParam Polygon2DParam;
         public PolygonCollider2DParam Click2DParam;
+        public Sprite BuildSprite;
         public AnimationClip AnimattionClip;
     }
 

@@ -25,6 +25,7 @@ namespace Carbon
         public GameObject TreeBtn;
         public GameObject FlowerBtn;
         public GameObject FacilityBtn;
+        public GameObject RoadBtn;
         private GameObject _CurrentDrag;
         private Dictionary<string, string> _cacheTileCover = new Dictionary<string, string>();
         private int _DragSortOrder = 0;
@@ -272,6 +273,7 @@ namespace Carbon
             TreeBtn.SetActive(true);
             FlowerBtn.SetActive(true);
             FacilityBtn.SetActive(true);
+            RoadBtn.SetActive(true);
             _CurrentMenu = String.Empty;
         }
 
@@ -319,6 +321,7 @@ namespace Carbon
                         TreeBtn.SetActive(false);
                         FlowerBtn.SetActive(false);
                         FacilityBtn.SetActive(false);
+                        RoadBtn.SetActive(false);
                         _CurrentBunble.GetComponent<BubbleController>().SetItems(ItemSerilize.BuildingItems);
                         break;
                     case "tree":
@@ -326,6 +329,7 @@ namespace Carbon
                         TreeBtn.SetActive(true);
                         FlowerBtn.SetActive(false);
                         FacilityBtn.SetActive(false);
+                        RoadBtn.SetActive(false);
                         _CurrentBunble.GetComponent<BubbleController>().SetItems(ItemSerilize.TreeItems);
                         break;
                     case "flower":
@@ -333,6 +337,7 @@ namespace Carbon
                         TreeBtn.SetActive(true);
                         FlowerBtn.SetActive(true);
                         FacilityBtn.SetActive(false);
+                        RoadBtn.SetActive(false);
                         _CurrentBunble.GetComponent<BubbleController>().SetItems(ItemSerilize.FlowerItems);
                         break;
                     case "facility":
@@ -340,7 +345,16 @@ namespace Carbon
                         TreeBtn.SetActive(true);
                         FlowerBtn.SetActive(true);
                         FacilityBtn.SetActive(true);
+                        RoadBtn.SetActive(false);
                         _CurrentBunble.GetComponent<BubbleController>().SetItems(ItemSerilize.FacilityItems);
+                        break;
+                    case "road":
+                        BuildingBtn.SetActive(true);
+                        TreeBtn.SetActive(true);
+                        FlowerBtn.SetActive(true);
+                        FacilityBtn.SetActive(true);
+                        RoadBtn.SetActive(true);
+                        _CurrentBunble.GetComponent<BubbleController>().SetItems(ItemSerilize.RoadItems);
                         break;
                 }
 
