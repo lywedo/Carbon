@@ -38,6 +38,7 @@ namespace Carbon
         private float _cacheSliderValue = 0;
         public Camera TileCamera;
         public Camera CaptureCamera;
+        public Camera ShareCaptureCamera;
         public RectTransform CaptureRect;
         public GameObject NormalCanvasRoot;
         public GameObject ShareCanvasRoot;
@@ -62,6 +63,15 @@ namespace Carbon
         public Text OverlapNotice;
         public GameObject InputCanvas;
         public InputField InputField;
+
+        public GameObject Sun;
+
+        public GameObject WorldCanvas;
+        public Text ShareSlogan;
+        public Text ShareName;
+        public Text ShareIndex;
+
+        private string _inputName;
 
 
         public delegate void RecycleModeChangeDelegate(bool mode);
@@ -125,6 +135,7 @@ namespace Carbon
             else
             {
                 InputCanvas.SetActive(false);
+                _inputName = InputField.text;
                 Debug.Log(InputField.text);
             }
         }
@@ -152,6 +163,8 @@ namespace Carbon
 
         private void ShowShare()
         {
+            WorldCanvas.SetActive(false);
+            Sun.SetActive(false);
             TileCamera.gameObject.SetActive(false);
             NormalCanvasRoot.SetActive(false);
             ShareCanvasRoot.SetActive(true);
@@ -172,15 +185,27 @@ namespace Carbon
             CloudController.GetInstance().HideTranslucentCloud();
             Slider.value = InitSliderValue;
             TileRootDragController.ResetPos();
+            WorldCanvas.SetActive(true);
+            
+            ShareSlogan.text = GetSlogan();
+            ShareName.text = _inputName;
+            ShareIndex.text = UUID.ToString();
             Debug.Log($"ResetPos: {InitSliderValue}");
             StartCoroutine(GeneralCapture());
-            // StartCoroutine(GeneralShare());
+            StartCoroutine(GeneralShare());
         }
 
-        // IEnumerator GeneralShare()
-        // {
-        //     
-        // }
+        IEnumerator GeneralShare()
+        {
+            yield return new WaitForEndOfFrame();
+            var path = SaveRenderTexture(ShareCaptureCamera.targetTexture, true);
+            var loadImage = ES3.LoadImage(path.key);
+            ScreenShot.sprite = Sprite.Create(loadImage,
+                new Rect(0, 0, loadImage.width, loadImage.height), 
+                new Vector2(0.5f,0.5f));
+            StartCoroutine(IRequestPic(path.key, path.pngBuffer));
+            ShowShare();
+        }
 
         IEnumerator GeneralCapture()
         {
@@ -188,12 +213,12 @@ namespace Carbon
             var path = SaveRenderTexture(CaptureCamera.targetTexture);
             _cacheTileCover.Add(_tileName, path.key);
             ES3.Save(DateTimeHelper.GetToday(), _cacheTileCover);
-            var loadImage = ES3.LoadImage(path.key);
-            ScreenShot.sprite = Sprite.Create(loadImage,
-                new Rect(0, 0, loadImage.width, loadImage.height), 
-                new Vector2(0.5f,0.5f));
-            StartCoroutine(IRequestPic(path.key, path.pngBuffer));
-            ShowShare();
+            // var loadImage = ES3.LoadImage(path.key);
+            // ScreenShot.sprite = Sprite.Create(loadImage,
+            //     new Rect(0, 0, loadImage.width, loadImage.height), 
+            //     new Vector2(0.5f,0.5f));
+            // StartCoroutine(IRequestPic(path.key, path.pngBuffer));
+            
         }
         
 
@@ -403,13 +428,131 @@ namespace Carbon
             
         }
 
-        private (string key, byte[] pngBuffer) SaveRenderTexture(RenderTexture rt)
+        private string[] _slogans = new[] {"低碳好行为，感谢你的一点一滴～", "低碳生活，从点滴做起", "爱低碳，爱生活", "校园及社区，低碳及时尚" };
+        private string GetSlogan()
+        {
+            var next = new Random().Next(0, _slogans.Length - 1);
+            return _slogans[next];
+        }
+        
+        // private Texture2D ScaleTexture(Texture2D source, int targetWidth, int targetHeight)
+        // {
+        //     Texture2D result = new Texture2D(targetWidth, targetHeight, source.format, true);
+        //     Color[] rpixels = result.GetPixels(0);
+        //     float incX = (1.0f / (float)targetWidth);
+        //     float incY = (1.0f / (float)targetHeight);
+        //     for (int px = 0; px < rpixels.Length; px++)
+        //     {
+        //         rpixels[px] = source.GetPixelBilinear(incX * ((float)px % targetWidth), incY * ((float)Mathf.Floor(px / targetWidth)));
+        //     }
+        //     result.SetPixels(rpixels, 0);
+        //     result.Apply();
+        //     return result;
+        // }
+        
+        public Texture2D DeCompress(Texture2D source)
+        {
+            RenderTexture renderTex = RenderTexture.GetTemporary(
+                source.width,
+                source.height,
+                0,
+                RenderTextureFormat.Default,
+                RenderTextureReadWrite.Linear);
+
+            Graphics.Blit(source, renderTex);
+            RenderTexture previous = RenderTexture.active;
+            RenderTexture.active = renderTex;
+            Texture2D readableText = new Texture2D(source.width, source.height);
+            readableText.ReadPixels(new Rect(0, 0, renderTex.width, renderTex.height), 0, 0);
+            readableText.Apply();
+            RenderTexture.active = previous;
+            RenderTexture.ReleaseTemporary(renderTex);
+            return readableText;
+        }
+
+        //source 要压缩的texture
+        //targetWidth 压缩后的宽度
+        //targetHeight 压缩后的高度
+        public Texture2D ReduceTexture (Texture2D source, int targetWidth, int targetHeight) {
+            Texture2D result = new Texture2D (targetWidth, targetHeight, source.format, true);
+            Color[] rpixels = result.GetPixels (0);
+            float incX = ((float) 1 / source.width) * ((float) source.width / targetWidth);
+            float incY = ((float) 1 / source.height) * ((float) source.height / targetHeight);
+            for (int px = 0; px < rpixels.Length; px++) {
+                rpixels[px] = source.GetPixelBilinear (incX * ((float) px % targetWidth),
+                    incY * ((float) Mathf.Floor (px / targetWidth)));
+            }
+            result.SetPixels (rpixels, 0);
+            result.Apply ();
+            return result;
+        }
+        
+        Texture2D ScaleTexture(Texture2D source, int targetWidth, int targetHeight)
+        {
+            Texture2D result = new Texture2D(targetWidth, targetHeight, source.format, false);
+
+            float incX = (1.0f / (float)targetWidth);
+            float incY = (1.0f / (float)targetHeight);
+
+            for (int i = 0; i < result.height; ++i)
+            {
+                for (int j = 0; j < result.width; ++j)
+                {
+                    Color newColor = source.GetPixelBilinear((float)j / (float)result.width, (float)i / (float)result.height);
+                    result.SetPixel(j, i, newColor);
+                }
+            }
+
+            result.Apply();
+            return result;
+        }
+        
+        Texture2D Resize(Texture2D source, int newWidth, int newHeight)
+        {
+            source.filterMode = FilterMode.Point;
+            RenderTexture rt = RenderTexture.GetTemporary(newWidth, newHeight);
+            rt.filterMode = FilterMode.Point;
+            RenderTexture.active = rt;
+            Graphics.Blit(source, rt);
+            var nTex = new Texture2D(newWidth, newHeight);
+            nTex.ReadPixels(new Rect(0, 0, newWidth, newHeight), 0, 0);
+            nTex.Apply();
+            RenderTexture.active = null;
+            return nTex;
+        }
+
+
+        public Texture2D ConvertToRGB(Texture2D tex)
+        {
+            RenderTexture srgbRenderTex = new RenderTexture(tex.width, tex.height, 16, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear);
+            Graphics.Blit(tex, srgbRenderTex);
+ 
+            Texture2D texFixed = new Texture2D(srgbRenderTex.width, srgbRenderTex.height);
+            RenderTexture.active = srgbRenderTex;
+            texFixed.ReadPixels(new Rect(0, 0, srgbRenderTex.width, srgbRenderTex.height), 0, 0);
+            texFixed.Apply();
+            RenderTexture.active = null;
+ 
+            Destroy(srgbRenderTex);
+ 
+            return texFixed;
+        }
+        private (string key, byte[] pngBuffer) SaveRenderTexture(RenderTexture rt, bool compress = false)
         {
             string key = $"{DateTimeHelper.GetMillisecond()}.png";
             RenderTexture.active = rt;
-            Texture2D png = new Texture2D(rt.width, rt.height, TextureFormat.ARGB32, false);
+            Texture2D png = new Texture2D(rt.width, rt.height, TextureFormat.RGBA32, false);
+            
+            // if (compress)
+            // {
+            //     png = ConvertToRGB(png);
+            // }
             png.ReadPixels(new Rect(0, 0, rt.width, rt.height), 0, 0);
             png.Apply();
+            if (compress)
+            {
+                png = ScaleTexture(png, 1280, 720);
+            }
             var pngBuffer = png.EncodeToPNG();
             ES3.SaveImage(png, key);
             Destroy(png);
@@ -420,6 +563,7 @@ namespace Carbon
         IEnumerator IRequestPic(string imgName, byte[] buffer)
         {
 
+            Debug.Log($"res: 上传{buffer.Length}");
             string url = "http://80.209.226.147:8882/sys/file/v1/upload/";
             WWWForm form = new WWWForm();
             form.AddField("folder", "upload");
