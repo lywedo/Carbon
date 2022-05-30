@@ -187,6 +187,7 @@ MonoBehaviour:
   Type: 0
   Cover: {fileID: 3159328522001535295}
   Up: {fileID: 3285190145544170386}
+  NeighborTiles: []
 --- !u!58 &8882606448677734549
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -60,6 +60,8 @@ namespace Carbon
         public Camera CloudCamera;
         private Sequence mScoreSequence;
         public Text OverlapNotice;
+        public GameObject InputCanvas;
+        public InputField InputField;
 
 
         public delegate void RecycleModeChangeDelegate(bool mode);
@@ -109,8 +111,22 @@ namespace Carbon
 
         private void Start()
         {
-            CloudController.GetInstance().Disspear();
-            CloudController.GetInstance().ShowTranslucentCloud(CloudCamera);
+            CloudController.GetInstance()?.Disspear();
+            CloudController.GetInstance()?.ShowTranslucentCloud(CloudCamera);
+            InputCanvas.SetActive(true);
+        }
+
+        public void ConfirmEnterMapName()
+        {
+            if (InputField.text.Equals(string.Empty))
+            {
+                Debug.Log("输入为空");
+            }
+            else
+            {
+                InputCanvas.SetActive(false);
+                Debug.Log(InputField.text);
+            }
         }
 
         private String FormatUUID(long uuid)
@@ -158,7 +174,13 @@ namespace Carbon
             TileRootDragController.ResetPos();
             Debug.Log($"ResetPos: {InitSliderValue}");
             StartCoroutine(GeneralCapture());
+            // StartCoroutine(GeneralShare());
         }
+
+        // IEnumerator GeneralShare()
+        // {
+        //     
+        // }
 
         IEnumerator GeneralCapture()
         {
