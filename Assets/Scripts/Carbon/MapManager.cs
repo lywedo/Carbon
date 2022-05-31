@@ -43,6 +43,9 @@ namespace Carbon
 
         private void Update()
         {
+#if UNITY_EDITOR
+            
+
             if (Input.GetKeyDown(KeyCode.A))
             {
                 // StartCoroutine(DispearCloud());
@@ -53,7 +56,7 @@ namespace Carbon
             {
                 CloudController.GetInstance().Assemble();
             }
-
+#endif
             if (Math.Abs(_cacheSliderValue - Slider.value) > 0.1)
             {
                 

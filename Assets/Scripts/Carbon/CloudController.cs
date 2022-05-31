@@ -74,11 +74,11 @@ namespace Carbon
             {
                 if (cloud.transform.localPosition.x < 0)
                 {
-                    cloud.transform.DOLocalMoveX(-Screen.width / 2 - 500, 2);
+                    cloud.transform.DOLocalMoveX(-Screen.width / 2 - 1000, 2);
                 }
                 else
                 {
-                    cloud.transform.DOLocalMoveX(Screen.width / 2 + 500, 2);
+                    cloud.transform.DOLocalMoveX(Screen.width / 2 + 1000, 2);
                 }
             }
         }

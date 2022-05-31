@@ -35,9 +35,35 @@ namespace Carbon
             System.IO.DirectoryInfo di = new DirectoryInfo(Application.persistentDataPath);
 
             foreach (FileInfo file in di.GetFiles())
-                file.Delete();
+            {
+                Debug.Log(file.Name);
+                // file.Attributes = FileAttributes.Normal;
+                if (!file.Name.EndsWith(".log"))
+                {
+                    try
+                    {
+                        file.Delete();
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.Log(e.ToString());
+                    }
+                }
+                
+            }
+
             foreach (DirectoryInfo dir in di.GetDirectories())
-                dir.Delete(true);
+            {
+                try
+                {
+                    dir.Delete(true);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log(e.ToString());
+                }
+            }
+                
         }
         
         IEnumerator IRequestPic(string imgName)

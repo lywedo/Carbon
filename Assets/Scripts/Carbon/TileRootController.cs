@@ -110,6 +110,7 @@ namespace Carbon
                     string coverSprite;
                     _cacheTileCover.TryGetValue(tileController.name, out coverSprite);
                     tileController.NotifyTileType(coverSprite);
+                    yield return new WaitForSecondsRealtime(0.2f);
                     // Debug.Log($"checktile: {tileController.name} {tileController.Type} {coverSprite}");
                 }
 

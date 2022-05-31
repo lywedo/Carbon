@@ -12,6 +12,8 @@ namespace Carbon
         public GameObject Up;
         private Vector3 _originVector3;
         public List<Transform> NeighborTiles = new List<Transform>();
+        private Sprite _showSprite;
+        private Texture2D _showTexture2d;
 
         private void Awake()
         {
@@ -32,18 +34,28 @@ namespace Carbon
             }else if (Type == TileType.builded)
             {
                 Up.SetActive(false);
-                var loadImage = ES3.LoadImage(coverSprite);
-                // loadImage.Reinitialize(loadImage.width, loadImage.height);
-                var sprite = Sprite.Create(loadImage,
-                    new Rect(0, 0, loadImage.width, loadImage.height), 
-                    new Vector2(0.5f,0.5f));
+                if (ES3.FileExists(coverSprite))
+                {
+                    _showTexture2d = ES3.LoadImage(coverSprite);
+                    // loadImage.Reinitialize(loadImage.width, loadImage.height);
+                    _showSprite = Sprite.Create(_showTexture2d,
+                        new Rect(0, 0, _showTexture2d.width, _showTexture2d.height), 
+                        new Vector2(0.5f,0.5f));
              
-                Cover.sprite = sprite;
-                // Cover.size = new Vector2(100, 100);
-                Cover.gameObject.SetActive(true);
-                gameObject.transform.localScale = _originVector3;
+                    Cover.sprite = _showSprite;
+                    // Cover.size = new Vector2(100, 100);
+                    Cover.gameObject.SetActive(true);
+                    gameObject.transform.localScale = _originVector3;
+                }
+                
                 Debug.Log($"NotifyTileType:{Cover.size}");
             }
+        }
+
+        private void OnDestroy()
+        {
+            Destroy(_showSprite);
+            Destroy(_showTexture2d);
         }
 
         public async void OnClickHandler()

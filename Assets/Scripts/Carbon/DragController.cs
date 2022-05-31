@@ -40,6 +40,11 @@ namespace Carbon
             _manager.RemoveDrags(this);
         }
 
+        public void SetColliderEnable(bool enable)
+        {
+            Polygon.enabled = enable;
+        }
+
         public void SetRecycleMode(bool mode)
         {
             _recyclerMode = mode;
@@ -144,6 +149,10 @@ namespace Carbon
 
         private void OnTriggerEnter2D(Collider2D other)
         {
+            if (_buildFinish)
+            {
+                return;
+            }
             // Debug.Log($"enter {other.gameObject.name}");
             if (other.gameObject.tag.Equals("Tile"))
             {
@@ -154,6 +163,10 @@ namespace Carbon
 
         private void OnTriggerExit2D(Collider2D other)
         {
+            if (_buildFinish)
+            {
+                return;
+            }
             // Debug.Log($"exit {other.gameObject.name}");
             if (other.gameObject.tag.Equals("Tile"))
             {

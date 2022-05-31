@@ -70,6 +70,7 @@ namespace Carbon
         public Text ShareSlogan;
         public Text ShareName;
         public Text ShareIndex;
+        private Texture2D _showTexture2D;
 
         private string _inputName;
 
@@ -188,8 +189,8 @@ namespace Carbon
             WorldCanvas.SetActive(true);
             
             ShareSlogan.text = GetSlogan();
-            ShareName.text = _inputName;
-            ShareIndex.text = $"NO.{FormatUUID(UUID)}";
+            ShareName.text = $"地图名称 {_inputName}";
+            ShareIndex.text = $"地图编号 NO.{FormatUUID(UUID)}";
             Debug.Log($"ResetPos: {InitSliderValue}");
             StartCoroutine(GeneralCapture());
             StartCoroutine(GeneralShare());
@@ -199,12 +200,12 @@ namespace Carbon
         {
             yield return new WaitForEndOfFrame();
             var path = SaveRenderTexture(ShareCaptureCamera.targetTexture, true);
-            var loadImage = ES3.LoadImage(path.key);
-            ScreenShot.sprite = Sprite.Create(loadImage,
-                new Rect(0, 0, loadImage.width, loadImage.height), 
-                new Vector2(0.5f,0.5f));
+            // var loadImage = ES3.LoadImage(path.key);
+            // ScreenShot.sprite = Sprite.Create(loadImage,
+            //     new Rect(0, 0, loadImage.width, loadImage.height), 
+            //     new Vector2(0.5f,0.5f));
             StartCoroutine(IRequestPic(path.key, path.pngBuffer));
-            ShowShare();
+           
         }
 
         IEnumerator GeneralCapture()
@@ -213,14 +214,18 @@ namespace Carbon
             var path = SaveRenderTexture(CaptureCamera.targetTexture);
             _cacheTileCover.Add(_tileName, path.key);
             ES3.Save(DateTimeHelper.GetToday(), _cacheTileCover);
-            // var loadImage = ES3.LoadImage(path.key);
-            // ScreenShot.sprite = Sprite.Create(loadImage,
-            //     new Rect(0, 0, loadImage.width, loadImage.height), 
-            //     new Vector2(0.5f,0.5f));
+            _showTexture2D = ES3.LoadImage(path.key);
+            ScreenShot.sprite = Sprite.Create(_showTexture2D,
+                new Rect(0, 0, _showTexture2D.width, _showTexture2D.height), 
+                new Vector2(0.5f,0.5f));
             // StartCoroutine(IRequestPic(path.key, path.pngBuffer));
-            
+            ShowShare();
         }
-        
+
+        private void OnDestroy()
+        {
+            Destroy(_showTexture2D);
+        }
 
         public void BubbleItemLongClick(Item item, Vector3 pos)
         {
@@ -302,6 +307,7 @@ namespace Carbon
                 // TileRoot.transform.localScale = new Vector2(_cacheSliderValue, _cacheSliderValue);
                 TileCamera.orthographicSize = _cacheSliderValue;
             }
+#if UNITY_EDITOR
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -326,6 +332,7 @@ namespace Carbon
                 Slider.value = InitSliderValue;
                 TileRootDragController.ResetPos();
             }
+#endif
         }
 
         private void ModifyMenu()
@@ -336,6 +343,7 @@ namespace Carbon
             FacilityBtn.SetActive(true);
             RoadBtn.SetActive(true);
             _CurrentMenu = String.Empty;
+            ResumeDragsCollider();
         }
 
         public void AddDrags(DragController dragController)
@@ -359,12 +367,29 @@ namespace Carbon
             Recycler_Notice.SetActive(_recyclerMode);
         }
 
+        private void ResumeDragsCollider()
+        {
+            foreach (var dragController in _CurrentDrags)
+            {
+                dragController.SetColliderEnable(true);
+            }
+        }
+        private void CancelDragsCollider()
+        {
+            foreach (var dragController in _CurrentDrags)
+            {
+                dragController.SetColliderEnable(false);
+            }
+        }
+
         public void ClickMenu(GameObject menu)
         {
             if (GlobalVariable.RecycleMode)
             {
                 return;
             }
+
+            CancelDragsCollider();
             if (null != _CurrentBunble)
             {
                 _CurrentBunble.GetComponent<BubbleController>().BubbleLongPress -= BubbleItemLongClick;
