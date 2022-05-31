@@ -29,6 +29,17 @@ namespace Carbon
             // await SceneChangeHelper.PreChangeSceneAsync("Map");
             
         }
+
+        public void ClearCache()
+        {
+            System.IO.DirectoryInfo di = new DirectoryInfo(Application.persistentDataPath);
+
+            foreach (FileInfo file in di.GetFiles())
+                file.Delete();
+            foreach (DirectoryInfo dir in di.GetDirectories())
+                dir.Delete(true);
+        }
+        
         IEnumerator IRequestPic(string imgName)
         {
             FileStream fs = new FileStream("C:\\Users\\admin\\Pictures\\mm_facetoface_collect_qrcode_1651482467494_[B@ea59683.png", FileMode.Open, FileAccess.Read);

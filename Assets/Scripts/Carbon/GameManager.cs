@@ -158,7 +158,7 @@ namespace Carbon
             RefreshEnergyText();
             Temperture.text = new Random().Next(10, 30).ToString();
             Date.text = DateTimeHelper.GetToday().Replace("-", "/");
-            ID.text = FormatUUID(UUID);
+            ID.text = $"NO.{FormatUUID(UUID)}";
         }
 
         private void ShowShare()
@@ -189,7 +189,7 @@ namespace Carbon
             
             ShareSlogan.text = GetSlogan();
             ShareName.text = _inputName;
-            ShareIndex.text = UUID.ToString();
+            ShareIndex.text = $"NO.{FormatUUID(UUID)}";
             Debug.Log($"ResetPos: {InitSliderValue}");
             StartCoroutine(GeneralCapture());
             StartCoroutine(GeneralShare());

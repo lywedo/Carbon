@@ -118,14 +118,33 @@ namespace Carbon
 
             foreach (var key in _cacheTileCover.Keys)
             {
-                NotifyNearestTileTypeNone(_tileDic[key].transform,
-                    _tileDic[key].NeighborTiles.Count == 0 ? tileTransforms : _tileDic[key].NeighborTiles);
+                // NotifyNearestTileTypeNone(_tileDic[key].transform,
+                //     _tileDic[key].NeighborTiles.Count == 0 ? tileTransforms : _tileDic[key].NeighborTiles);
+                StartCoroutine(NotifyNearestTileTypeNoneIEnumerator(_tileDic[key].transform,
+                    _tileDic[key].NeighborTiles.Count == 0 ? tileTransforms : _tileDic[key].NeighborTiles));
                 yield return new WaitForSeconds(0.0001f);
             }
             Debug.Log($"calucateSum: {_caculateSum}");
         }
 
         private int _caculateSum = 0;
+
+        IEnumerator NotifyNearestTileTypeNoneIEnumerator(Transform player, List<Transform> objects)
+        {
+            foreach (var o in objects)
+            {
+                var tileController = o.GetComponent<TileController>();
+                if (tileController.Type == TileType.None)
+                {
+                    tileController.Type = TileType.Unbuild;
+                    tileController.NotifyTileType();
+                }
+                _caculateSum++;
+                yield return new WaitForSeconds(0.0001f);
+                
+            }
+        }
+        
         private void NotifyNearestTileTypeNone(Transform player, List<Transform> objects)
         {
             foreach (var o in objects)
