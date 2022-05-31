@@ -225,6 +225,7 @@ namespace Carbon
         private void OnDestroy()
         {
             Destroy(_showTexture2D);
+            Destroy(_encode);
         }
 
         public void BubbleItemLongClick(Item item, Vector3 pos)

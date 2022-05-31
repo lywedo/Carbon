@@ -18,6 +18,9 @@ namespace Carbon
         {
             BtnText.text = GetLocalIp();
             SceneChangeHelper.PreChangeSceneAsync("Map").Coroutine();
+            Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.Full);
+            
+            // Application.stackTraceLogType = StackTraceLogType.Full;
         }
 
         public async void JumpMap()
@@ -93,13 +96,13 @@ namespace Carbon
             }
         }
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                StartCoroutine(IRequestPic("haha"));
-            }
-        }
+        // private void Update()
+        // {
+        //     if (Input.GetKeyDown(KeyCode.T))
+        //     {
+        //         StartCoroutine(IRequestPic("haha"));
+        //     }
+        // }
 
         public string GetLocalIp()
         {
