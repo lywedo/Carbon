@@ -61,14 +61,14 @@ namespace Carbon
         public Camera CloudCamera;
         private Sequence mScoreSequence;
         public Text OverlapNotice;
-        public GameObject InputCanvas;
-        public InputField InputField;
+        // public GameObject InputCanvas;
+        // public InputField InputField;
 
         public GameObject Sun;
 
         public GameObject WorldCanvas;
         public Text ShareSlogan;
-        public Text ShareName;
+        // public Text ShareName;
         public Text ShareIndex;
         private Texture2D _showTexture2D;
 
@@ -124,22 +124,22 @@ namespace Carbon
         {
             CloudController.GetInstance()?.Disspear();
             CloudController.GetInstance()?.ShowTranslucentCloud(CloudCamera);
-            InputCanvas.SetActive(true);
+            // InputCanvas.SetActive(true);
         }
 
-        public void ConfirmEnterMapName()
-        {
-            if (InputField.text.Equals(string.Empty))
-            {
-                Debug.Log("输入为空");
-            }
-            else
-            {
-                InputCanvas.SetActive(false);
-                _inputName = InputField.text;
-                Debug.Log(InputField.text);
-            }
-        }
+        // public void ConfirmEnterMapName()
+        // {
+        //     if (InputField.text.Equals(string.Empty))
+        //     {
+        //         Debug.Log("输入为空");
+        //     }
+        //     else
+        //     {
+        //         InputCanvas.SetActive(false);
+        //         _inputName = InputField.text;
+        //         Debug.Log(InputField.text);
+        //     }
+        // }
 
         private String FormatUUID(long uuid)
         {
@@ -170,6 +170,7 @@ namespace Carbon
             NormalCanvasRoot.SetActive(false);
             ShareCanvasRoot.SetActive(true);
             UpperUICamera.gameObject.SetActive(false);
+            // Invoke(nameof(Back2Map), 15);
         }
 
         public void HideNotice()
@@ -189,7 +190,7 @@ namespace Carbon
             WorldCanvas.SetActive(true);
             
             ShareSlogan.text = GetSlogan();
-            ShareName.text = $"地图名称 {_inputName}";
+            // ShareName.text = $"地图名称 {_inputName}";
             ShareIndex.text = $"地图编号 NO.{FormatUUID(UUID)}";
             Debug.Log($"ResetPos: {InitSliderValue}");
             StartCoroutine(GeneralCapture());
@@ -222,10 +223,17 @@ namespace Carbon
             ShowShare();
         }
 
+        private void Back2Map()
+        {
+            BackToMap();
+        }
+
         private void OnDestroy()
         {
             Destroy(_showTexture2D);
             Destroy(_encode);
+            StopAllCoroutines();
+            CancelInvoke();
         }
 
         public void BubbleItemLongClick(Item item, Vector3 pos)
@@ -242,9 +250,19 @@ namespace Carbon
             ModifyMenu();
             _CurrentDrag = Instantiate(DragGO, Tile.transform);
             _CurrentDrag.GetComponent<DragController>().SetGameManagerAccess(this);
-            var scale = item.CoverSprite.bounds.size.y / item.CoverSprite.bounds.size.x;
+            Sprite resultSprite;
+            if (item.BuildSprite != null)
+            {
+                resultSprite = item.BuildSprite;
+            }
+            else
+            {
+                resultSprite = item.CoverSprite;
+            }
+            var scale = resultSprite.bounds.size.y / resultSprite.bounds.size.x;
             var width = item.ShowWidth;
             var height = width * scale;
+            Debug.Log($"bubble:{resultSprite.bounds.size}  {width}  {height}");
             // _CurrentDrag.GetComponent<DragController>().DragItem = item;
             _CurrentDrag.GetComponent<DragController>().SetSprite(item, new Vector2(width, height), item.Polygon2DParam);
             // _CurrentDrag.transform.localScale = Vector3.one;
@@ -613,6 +631,7 @@ namespace Carbon
                 qrcode.texture = _encode;
                 qrcode.transform.DOScale(1, 0.5f);
             }
+            Invoke(nameof(Back2Map), 15);
         }
         
         private static Color32[] Encode(string textForEncoding, int width, int height)

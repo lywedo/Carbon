@@ -267,7 +267,7 @@ MonoBehaviour:
   - Type: 1
     Price: 5
     CoverSprite: {fileID: 21300000, guid: 93e7af5064d024246a9e02518724fb73, type: 3}
-    ShowWidth: 3
+    ShowWidth: 2
     Polygon2DParam:
       points:
       - {x: -1.487144, y: 0.86917746}
