@@ -616,21 +616,30 @@ namespace Carbon
             UnityWebRequest req = UnityWebRequest.Post(url, form);
             yield return req.SendWebRequest();
             Debug.Log($"res: {req.downloadHandler.text}");
-            if (req.isHttpError || req.isNetworkError)
+            try
             {
-                Debug.Log($"res: 上传失败");
-                QrcodeText.text = "网络异常";
+                
+                if (req.isHttpError || req.isNetworkError)
+                {
+                    Debug.Log($"res: 上传失败");
+                    QrcodeText.text = "网络异常";
+                }
+                if (req.isDone && !req.isHttpError)
+                {
+                    Debug.Log($"res: 上传成功 {req.downloadHandler.text}");
+                    var res = JsonConvert.DeserializeObject<MinioRes>(req.downloadHandler.text);
+                    var color32s = Encode(res.result, 256, 256);
+                    _encode.SetPixels32(color32s);
+                    _encode.Apply();
+                    qrcode.texture = _encode;
+                    qrcode.transform.DOScale(1, 0.5f);
+                }
             }
-            if (req.isDone && !req.isHttpError)
+            catch (Exception e)
             {
-                Debug.Log($"res: 上传成功 {req.downloadHandler.text}");
-                var res = JsonConvert.DeserializeObject<MinioRes>(req.downloadHandler.text);
-                var color32s = Encode(res.result, 256, 256);
-                _encode.SetPixels32(color32s);
-                _encode.Apply();
-                qrcode.texture = _encode;
-                qrcode.transform.DOScale(1, 0.5f);
+                Debug.Log(e.ToString());
             }
+            
             Invoke(nameof(Back2Map), 15);
         }
         

@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using ET;
+using Server;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 using Random = System.Random;
 
@@ -18,6 +20,7 @@ namespace Carbon
         public Canvas TranslucentCanvas;
 
         public Image[] _translucentClouds;
+        public GameObject CloudButton;
         
         // public Camera cloudCamera;
         private Random _random;
@@ -35,7 +38,30 @@ namespace Carbon
             _random = new Random();
             // ShowTranlucentCloud(cloudCamera);
         }
+
+        public void ClickCloud()
+        {
+            Debug.Log("clickcloud");
+            UnityHttpServer.Instance.ReceiveEnergyListener?.Invoke(500 * new Random().Next(1, 5));
+            // StartCoroutine(Get());
+        }
         
+        IEnumerator Get()
+        {
+            UnityWebRequest request = UnityWebRequest.Get("http://127.0.0.1:8000/");
+            yield return request.SendWebRequest();
+            if(request.isHttpError || request.isNetworkError)
+            {
+                Debug.LogError(request.url);
+                Debug.LogError(request.error);
+            }
+            else
+            {
+                string receiveContent = request.downloadHandler.text;
+                Debug.Log(receiveContent);
+            }
+        }
+
         private void Start()
         {
             _solidClouds = SolidCloud.GetComponentsInChildren<Image>();
@@ -81,11 +107,13 @@ namespace Carbon
                     cloud.transform.DOLocalMoveX(Screen.width / 2 + 1000, 2);
                 }
             }
+            CloudButton.SetActive(false);
         }
 
         public void Assemble(Action action = null)
         {
             StartCoroutine(RealAssemble(action));
+            CloudButton.SetActive(true);
         }
 
         private IEnumerator RealAssemble(Action action)
