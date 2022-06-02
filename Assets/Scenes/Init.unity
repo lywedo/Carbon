@@ -544,6 +544,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1661127268375325994, guid: 3b25afe4b4fcf474693dda7992e4f8f3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4110176156588415264, guid: 3b25afe4b4fcf474693dda7992e4f8f3, type: 3}
+      propertyPath: m_Text
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4530210931540882874, guid: 3b25afe4b4fcf474693dda7992e4f8f3, type: 3}
       propertyPath: m_Name
       value: CloudRoot
